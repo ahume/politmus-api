@@ -1,0 +1,17 @@
+application: whipit
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: no
+
+handlers:
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
+
+- url: .*
+  script: main_router.py
+
+libraries:
+- name: webapp2
+  version: "2.5.1"
