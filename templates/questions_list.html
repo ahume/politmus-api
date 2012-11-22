@@ -1,0 +1,17 @@
+<html>
+<head>
+	<title>Question List</title>
+</head>
+<body>
+
+	<h1>List of Questions</h1>
+	<h2>For {{ user.username }}</h2>
+
+	<ul>
+		{% for question in questions %}
+		<li><a href="/vote?question={{ question.key }}&amp;user={{ user.key }}">{{ question.title }}</a></li>
+		{% endfor %}
+	</ul>
+
+</body>
+</html>

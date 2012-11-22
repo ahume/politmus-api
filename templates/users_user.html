@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ user.username }}{% endblock %}
+
+{% block content %}
+	<h1>{{ user.username }}</h1>
+
+	<p>Your MP is <strong>{{ user.mp }}</strong></p>
+	<p>Your constituency is <strong>{{ user.constituency }}</strong></p>
+	<p>Your MP and you have both voted on <strong>{{ shared_count }}</strong> questions</p>
+	<p>You matched on <strong>{{ match_count }}</strong> of them.</p>
+
+	<br>
+
+	<p>You matched with your constituency <strong>{{ const_match_count}}</strong> times</p>
+
+
+	<h2>Questions to vote on</h2>
+	<ul>
+		{% for question in questions %}
+			<li><a href="/questions/{{ question.key }}?username={{ user.username }}">{{ question.question }}</a></li>
+		{% endfor %}
+	</ul>
+{% endblock %}
