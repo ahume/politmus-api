@@ -102,14 +102,48 @@ class UserQuestionListHandler(webapp.RequestHandler):
 		self.response.headers['Content-Type'] = 'application/json'
 		self.response.out.write(json.dumps(response))
 
-
-
 class UserVoteHandler(webapp.RequestHandler):
-	def post(self, username, question_key):
+
+
+	def get(self, username):
+		response = {}
+		try:
+			mp = User.all().filter('username =', username)[0]
+			response['user'] = db.to_dict(mp)
+			response['status'] = 200
+		except:
+			response['status'] = 404
+			self.response.headers['Content-Type'] = 'application/json'
+			self.response.out.write(json.dumps(response))
+
+		user_votes = UserVote.all().filter('user_username =', username)
+
+		logging.debug(user_votes.count())
+
+		question_key = self.request.get('question')
+		if question_key is not '':
+			user_votes.filter('question =', question_key)
+
+		selection = self.request.get('selection')
+		if selection is not '':
+			user_votes.filter('selection =', selection)
+
+		response['votes'] = [db.to_dict(v) for v in user_votes]
+		for v in response['votes']:
+			del v['user_username']
+
+		self.response.headers['Content-Type'] = 'application/json'
+		self.response.out.write(json.dumps(response))
+
+
+
+	def post(self, username):
+
+		question_key = self.request.get('question')
 
 		response = {
 			'user': username,
-			'question_key': question_key
+			'question': question_key
 		}
 
 		allowed_selections = ['aye', 'no', 'dont-care', 'dont-understand']
@@ -126,7 +160,11 @@ class UserVoteHandler(webapp.RequestHandler):
 			user = User.all().filter('username =', username)[0]
 			question = Question.get(question_key)
 		except:
-			self.response.out.write("Cannot find user or question")
+			response['status'] = 404
+			response['error'] = 'Cannot find user or question'
+			self.response.headers['Content-Type'] = 'application/json'
+			self.response.out.write(json.dumps(response))
+			return
 
 		# Get existing or new question
 		existing = UserVote.all().filter('username =', user.username).filter('question =', question_key)
@@ -136,13 +174,13 @@ class UserVoteHandler(webapp.RequestHandler):
 			vote = UserVote()
 
 		vote.question = question_key
-		vote.username = user.username
+		vote.user_username = user.username
 		vote.constituency = user.constituency
 		vote.selection = self.request.get('selection')
 		vote.put()
 
 		response['selection'] = vote.selection
-		response['status'] = 'ok'
+		response['status'] = '200'
 
 		self.response.headers['Content-Type'] = 'application/json'
 		self.response.out.write(json.dumps(response))

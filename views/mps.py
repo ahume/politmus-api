@@ -36,7 +36,8 @@ class MPProfileHandler(webapp.RequestHandler):
 		}
 
 		try:
-			response['user'] = db.to_dict(MP.all().filter('slug =', slug)[0])
+			response['mp'] = db.to_dict(MP.all().filter('slug =', slug)[0])
+			response['mp']['vote_details'] = '/mps/%s/votes' % slug
 		except:
 			response['status'] = 404
 			response['error'] = 'Cannot find mp'
@@ -44,21 +45,38 @@ class MPProfileHandler(webapp.RequestHandler):
 		self.response.headers['Content-Type'] = 'application/json'
 		self.response.out.write(json.dumps(response))
 
+
 class MPVoteHandler(webapp.RequestHandler):
-	def get(self, slug, question_key):
+	def get(self, slug):
 
 		response = {}
-
 		try:
-			q = Question.get(question_key)
-			response['question'] = db.to_dict(q)
-			response['question']['date'] = str(q.date)
-			response['selection'] = MPVote.all().filter('mp_slug =', slug).filter('question =', question_key)[0].selection
+			mp = MP.all().filter('slug =', slug)[0]
+			response['mp'] = db.to_dict(mp)
+			response['status'] = 200
 		except:
-			if response['question'] is not None:
-				del response['question']
 			response['status'] = 404
-			response['error'] = 'Cannot find question or mpvote'
+			self.response.headers['Content-Type'] = 'application/json'
+			self.response.out.write(json.dumps(response))
+
+		mp_votes = MPVote.all().filter('mp_slug =', slug)
+
+		logging.debug(mp_votes.count())
+
+		question_key = self.request.get('question')
+		if question_key is not '':
+			mp_votes.filter('question =', question_key)
+
+		selection = self.request.get('selection')
+		if selection is not '':
+			mp_votes.filter('selection =', selection)
+
+		response['votes'] = [db.to_dict(v) for v in mp_votes]
+		for v in response['votes']:
+			del v['mp_party']
+			del v['mp_constituency']
+			del v['mp_slug']
+			del v['mp_name']
 
 		self.response.headers['Content-Type'] = 'application/json'
 		self.response.out.write(json.dumps(response))

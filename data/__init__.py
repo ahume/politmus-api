@@ -26,17 +26,6 @@ def import_users():
         u.put()
         print row['username']
 
-
-def import_questions():
-    csvfile = open('fixtures/mp_votes/vote_questions.csv', 'rU')
-    for row in csv.reader(csvfile):
-        d = Question()
-        d.question = row[0]
-        d.title = row[1]
-        d.date = datetime.datetime.now()
-        d.publicwhip_url = row[3]
-        d.put()
-
 def import_mp_votes(subset=True):
 
     subset_const = [
@@ -54,19 +43,18 @@ def import_mp_votes(subset=True):
         "Mark Lazarowicz"
     ]
 
-    question_list = {
-        'afghanistan': 'ag1kZXZ-d2hpcGl0YXBwcg4LEghRdWVzdGlvbhgHDA',
-        'badgers': 'ag1kZXZ-d2hpcGl0YXBwcg4LEghRdWVzdGlvbhgBDA',
-        'blasphemy': 'ag1kZXZ-d2hpcGl0YXBwcg4LEghRdWVzdGlvbhgDDA',
-        'detention': 'ag1kZXZ-d2hpcGl0YXBwcg4LEghRdWVzdGlvbhgLDA',
-        'homosexuality': 'ag1kZXZ-d2hpcGl0YXBwcg4LEghRdWVzdGlvbhgEDA',
-        'royalmail': 'ag1kZXZ-d2hpcGl0YXBwcg4LEghRdWVzdGlvbhgKDA',
-        'sanctions': 'ag1kZXZ-d2hpcGl0YXBwcg4LEghRdWVzdGlvbhgJDA',
-        'sixteen': 'ag1kZXZ-d2hpcGl0YXBwcg4LEghRdWVzdGlvbhgFDA',
-        'smacking': 'ag1kZXZ-d2hpcGl0YXBwcg4LEghRdWVzdGlvbhgCDA',
-        'tuitionfees': 'ag1kZXZ-d2hpcGl0YXBwcg4LEghRdWVzdGlvbhgGDA',
-        'vat': 'ag1kZXZ-d2hpcGl0YXBwcg4LEghRdWVzdGlvbhgIDA'
-    }
+    question_list = {}
+
+    csvfile = open('fixtures/mp_votes/vote_questions.csv', 'rU')
+    for row in csv.reader(csvfile):
+        d = Question()
+        d.question = row[0]
+        d.title = row[1]
+        d.date = datetime.datetime.now()
+        d.publicwhip_url = row[3]
+        d.put()
+
+        question_list[row[4]] = str(d.key())
 
     mps_created = []
     consts_created = []
@@ -81,37 +69,37 @@ def import_mp_votes(subset=True):
             if subset and row[1] not in subset_const and row[0] not in subset_mp:
                 continue
 
-            #try:
-            v = MPVote()
-            v.question = question_list[question]
-            v.mp_name = row[0]
-            v.mp_slug = slugify(row[0])
-            v.mp_constituency = row[1]
-            v.mp_party = normalise_party(row[2])
-            v.selection = normalise_selection(row[3])
-            v.mp_whilst = get_whilst(row[2])
-            v.put()
+            try:
+                v = MPVote()
+                v.question = question_list[question]
+                v.mp_name = row[0]
+                v.mp_slug = slugify(row[0])
+                v.mp_constituency = row[1]
+                v.mp_party = normalise_party(row[2])
+                v.selection = normalise_selection(row[3])
+                v.mp_whilst = get_whilst(row[2])
+                v.put()
 
-            if v.mp_slug not in mps_created:
-                mp = MP()
-                mp.slug = v.mp_slug
-                mp.name = v.mp_name
-                mp.constituency = v.mp_constituency
-                mp.party = v.mp_party
-                mp.put()
-                mps_created.append(v.mp_slug)
+                if v.mp_slug not in mps_created:
+                    mp = MP()
+                    mp.slug = v.mp_slug
+                    mp.name = v.mp_name
+                    mp.constituency = v.mp_constituency
+                    mp.party = v.mp_party
+                    mp.put()
+                    mps_created.append(v.mp_slug)
 
-            if v.mp_constituency not in consts_created:
-                const = Constituency()
-                const.name = v.mp_constituency
-                const.slug = slugify(v.mp_constituency)
-                const.mp_name = v.mp_name
-                const.mp_party = v.mp_party
-                const.put()
-                consts_created.append(v.mp_constituency)
+                if v.mp_constituency not in consts_created:
+                    const = Constituency()
+                    const.name = v.mp_constituency
+                    const.slug = slugify(v.mp_constituency)
+                    const.mp_name = v.mp_name
+                    const.mp_party = v.mp_party
+                    const.put()
+                    consts_created.append(v.mp_constituency)
 
-            #except:
-            #    print "Failed insert"
+            except:
+                print "Failed insert"
 
 
 def slugify(name):

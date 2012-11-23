@@ -8,8 +8,6 @@ class Question(db.Expando):
 	date = db.DateTimeProperty()
 	publicwhip_url = db.StringProperty()
 
-
-
 class User(db.Expando):
 	username = db.StringProperty()
 	postcode = db.StringProperty()
@@ -40,8 +38,6 @@ class MPVote(db.Expando):
 	mp_party = db.StringProperty()
 	mp_constituency = db.StringProperty()
 	mp_whilst = db.BooleanProperty()
-
-
 
 class Constituency(db.Expando):
 	name = db.StringProperty()
