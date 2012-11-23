@@ -1,14 +1,36 @@
 import logging
 import os
+import json
 
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.api import memcache
+from google.appengine.ext import db
 
 from models import User, Question, UserVote
 
 class QuestionHandler(webapp.RequestHandler):
 
+	def get(self, question_key):
+
+		response = {
+			"status": 200,
+		}
+
+		try:
+			question = Question.get(question_key)
+			q = db.to_dict(question)
+			q['date'] = str(question.date)
+			response['question'] = q
+		except:
+			response['status'] = 404
+			response['error'] = 'Cannot find question'
+
+		self.response.headers['Content-Type'] = 'application/json'
+		self.response.out.write(json.dumps(response))
+
+
+"""
 	def get(self, question_key):
 		try:
 			question = Question.get(question_key)
@@ -30,22 +52,22 @@ class QuestionHandler(webapp.RequestHandler):
 
 		t = template.render('templates/question.html', context)
 		self.response.out.write(t)
+"""
 
 
 class QuestionListHandler(webapp.RequestHandler):
-
 	def get(self):
+		response = {
+			'status': 200,
+			'questions': []
+		}
 
-		try: 
-			context = {
-				'user': User.get(self.request.get('user')),
-				'questions': Queston.all()
-			}
-		except:
-			self.response.out.write('User not valid')
-			return
+		for question in Question.all():
+			q = db.to_dict(question)
+			q['date'] = str(question.date)
+			q['details'] = '/questions/%s' % str(question.key())
 
+			response['questions'].append(q)
 
-		t = template.render('templates/question_list.html', context)
-
-		self.response.out.write(t)
+		self.response.headers['Content-Type'] = 'application/json'
+		self.response.out.write(json.dumps(response))

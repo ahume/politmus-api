@@ -1,30 +1,52 @@
 import logging
 import os
+import json
 
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.api import memcache
+from google.appengine.ext import db
+
 
 from models import User, UserVote, Question, MPVote
+import utils
 
 class UserListHandler(webapp.RequestHandler):
 	def get(self):
-
-		context = {
-			'users': User.all(),
+		response = {
+			'status': 200,
+			'users': []
 		}
-		t = template.render('templates/users_list.html', context)
-		self.response.out.write(t)
+
+		for user in User.all():
+			u = db.to_dict(user)
+			u['details'] = '/users/%s' % user.username
+
+			response['users'].append(u)
+
+		self.response.headers['Content-Type'] = 'application/json'
+		self.response.out.write(json.dumps(response))
 
 class UserProfileHandler(webapp.RequestHandler):
 	def get(self, username):
 
-		try:
-			user = User.all().filter('username =', username)[0]
-		except:
-			self.response.out.write("Cannot find user")
-			return
+		response = {
+			"status": 200,
+		}
 
+		try:
+			response['user'] = db.to_dict(User.all().filter('username =', username)[0])
+		except:
+			response['status'] = 404
+			response['error'] = 'Cannot find username'
+
+		self.response.headers['Content-Type'] = 'application/json'
+		self.response.out.write(json.dumps(response))
+
+
+
+		"""
+		Below here shows how to calculate match scores. Sort of.
 		questions = Question.all()
 
 		# Get UserVotes and capture the IDs
@@ -56,9 +78,49 @@ class UserProfileHandler(webapp.RequestHandler):
 
 		t = template.render('templates/users_user.html', context)
 		self.response.out.write(t)
+		"""
+
+class UserQuestionListHandler(webapp.RequestHandler):
+	def get(self, username):
+
+		user = User.all().filter('username =', username)[0]
+
+		logging.debug(user)
+
+		response = {
+			'status': 200,
+			'username': username,
+			'questions': []
+		}
+		for question in utils.getUnansweredQuestionsFor(username):
+			response['questions'].append({
+				'title': question.title,
+				'question': question.question,
+				'key': str(question.key())
+			})
+
+		self.response.headers['Content-Type'] = 'application/json'
+		self.response.out.write(json.dumps(response))
+
+
 
 class UserVoteHandler(webapp.RequestHandler):
 	def post(self, username, question_key):
+
+		response = {
+			'user': username,
+			'question_key': question_key
+		}
+
+		allowed_selections = ['aye', 'no', 'dont-care', 'dont-understand']
+
+		if self.request.get('selection') not in allowed_selections:
+			response['status'] = 'error'
+			response['error'] = 'You did not send a selection [aye, no, dont-care, dont-understand]'
+			self.response.headers['Content-Type'] = 'application/json'
+			self.response.out.write(json.dumps(response))
+			return
+
 
 		try:
 			user = User.all().filter('username =', username)[0]
@@ -66,6 +128,7 @@ class UserVoteHandler(webapp.RequestHandler):
 		except:
 			self.response.out.write("Cannot find user or question")
 
+		# Get existing or new question
 		existing = UserVote.all().filter('username =', user.username).filter('question =', question_key)
 		if existing.count() > 0:
 			vote = existing[0]
@@ -78,5 +141,9 @@ class UserVoteHandler(webapp.RequestHandler):
 		vote.selection = self.request.get('selection')
 		vote.put()
 
-		self.response.out.write('Thanks for voting')
+		response['selection'] = vote.selection
+		response['status'] = 'ok'
+
+		self.response.headers['Content-Type'] = 'application/json'
+		self.response.out.write(json.dumps(response))
 

@@ -10,7 +10,6 @@ class Question(db.Expando):
 
 
 
-
 class User(db.Expando):
 	username = db.StringProperty()
 	postcode = db.StringProperty()
@@ -20,30 +19,32 @@ class User(db.Expando):
 	constituency = db.StringProperty()
 	mp = db.StringProperty()
 
-
 class MP(db.Expando):
 	name = db.StringProperty()
+	slug = db.StringProperty()
 	constituency = db.StringProperty()
+	party = db.StringProperty()
 	age = db.StringProperty()
 	gender = db.StringProperty()
 
-
 class UserVote(db.Expando):
-	username = db.StringProperty()
 	question = db.StringProperty()
 	selection = db.StringProperty()
+	user_username = db.StringProperty()
 
 class MPVote(db.Expando):
-	name = db.StringProperty()
-	question = db.StringProperty()
-	party = db.StringProperty()
-	constituency = db.StringProperty()
 	selection = db.StringProperty()
-	whilst = db.BooleanProperty()
-
+	question = db.StringProperty()
+	mp_name = db.StringProperty()
+	mp_slug = db.StringProperty()
+	mp_party = db.StringProperty()
+	mp_constituency = db.StringProperty()
+	mp_whilst = db.BooleanProperty()
 
 
 
 class Constituency(db.Expando):
 	name = db.StringProperty()
-	mp = db.StringProperty()
+	slug = db.StringProperty()
+	mp_name = db.StringProperty()
+	mp_party = db.StringProperty()

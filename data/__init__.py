@@ -4,7 +4,9 @@ import json
 import datetime
 import codecs
 
-from models import User, MPVote, Question
+from google.appengine.ext import db
+
+from models import User, MP, MPVote, Question, Constituency
 
 def import_users():
 
@@ -35,7 +37,7 @@ def import_questions():
         d.publicwhip_url = row[3]
         d.put()
 
-def import_mp_votes(subset=False):
+def import_mp_votes(subset=True):
 
     subset_const = [
         "Brighton, Kemptown",
@@ -66,6 +68,8 @@ def import_mp_votes(subset=False):
         'vat': 'ag1kZXZ-d2hpcGl0YXBwcg4LEghRdWVzdGlvbhgIDA'
     }
 
+    mps_created = []
+    consts_created = []
 
     for question in question_list:
 
@@ -77,19 +81,41 @@ def import_mp_votes(subset=False):
             if subset and row[1] not in subset_const and row[0] not in subset_mp:
                 continue
 
-            try:
-                v = MPVote()
-                v.question = question_list[question]
-                v.name = row[0]
-                v.constituency = row[1]
-                v.party = normalise_party(row[2])
-                v.selection = normalise_selection(row[3])
-                v.whilst = get_whilst(row[2])
+            #try:
+            v = MPVote()
+            v.question = question_list[question]
+            v.mp_name = row[0]
+            v.mp_slug = slugify(row[0])
+            v.mp_constituency = row[1]
+            v.mp_party = normalise_party(row[2])
+            v.selection = normalise_selection(row[3])
+            v.mp_whilst = get_whilst(row[2])
+            v.put()
 
-                v.put()
-            except:
-                print "Failed insert"
+            if v.mp_slug not in mps_created:
+                mp = MP()
+                mp.slug = v.mp_slug
+                mp.name = v.mp_name
+                mp.constituency = v.mp_constituency
+                mp.party = v.mp_party
+                mp.put()
+                mps_created.append(v.mp_slug)
 
+            if v.mp_constituency not in consts_created:
+                const = Constituency()
+                const.name = v.mp_constituency
+                const.slug = slugify(v.mp_constituency)
+                const.mp_name = v.mp_name
+                const.mp_party = v.mp_party
+                const.put()
+                consts_created.append(v.mp_constituency)
+
+            #except:
+            #    print "Failed insert"
+
+
+def slugify(name):
+    return ''.join(c.lower() for c in name if not c.isspace())
 
 def normalise_party(party):
     return party.replace("whilst", "")
