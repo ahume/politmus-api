@@ -51,19 +51,15 @@ class QuestionHandler(webapp.RequestHandler, utils.JsonAPIResponse):
 """
 
 
-class QuestionListHandler(webapp.RequestHandler):
+class QuestionListHandler(webapp.RequestHandler, utils.QueryFilter, utils.JsonAPIResponse):
+
 	def get(self):
-		response = {
-			'status': 200,
-			'questions': []
-		}
 
-		for question in Question.all():
-			q = utils.question_to_dict(question)
-			q['details'] = '/questions/%s' % str(question.key())
+		response = {}
 
-			response['questions'].append(q)
-		response['total'] = len(response['questions'])
+		self.query = Question.all()
+		response['total'] = self.query.count()
+		response = self.addPagingFilters(response)
+		response['questions'] = [utils.question_to_dict(q) for q in self.query]
 
-		self.response.headers['Content-Type'] = 'application/json'
-		self.response.out.write(json.dumps(response))
+		self.returnJSON(200, response)

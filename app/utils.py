@@ -23,6 +23,7 @@ def question_to_dict(question):
 	q = db.to_dict(question)
 	q['date'] = str(question.date)	
 	q['key'] = str(question.key())
+	q['details'] = '/questions/%s' % str(question.key())
 	return q
 
 def mp_to_dict(mp):
@@ -38,7 +39,7 @@ def user_to_dict(user):
 class QueryFilter(object):
 
 	def filterQueryOnParam(self, param):
-		q = self.request.get(param)
+		q = self.request.get(param).lower()
 		if q is not '':
 			self.query.filter(param + ' =', q)
 

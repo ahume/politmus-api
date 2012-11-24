@@ -20,6 +20,7 @@ class UserListHandler(webapp.RequestHandler, utils.QueryFilter, utils.JsonAPIRes
 
 		self.query = User.all()
 		self.filterQueryOnParam('gender')
+		response = self.addPagingFilters(response)
 
 		for user in self.query:
 			u = db.to_dict(user)

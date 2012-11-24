@@ -81,7 +81,7 @@ def import_mp_votes(subset=True):
                 v.mp_name = row[0]
                 v.mp_slug = slugify(row[0])
                 v.mp_constituency = row[1]
-                v.mp_party = normalise_party(row[2])
+                v.mp_party = normalise_party(row[2]).lower()
                 v.selection = normalise_selection(row[3])
                 v.mp_whilst = get_whilst(row[2])
                 v.put()
