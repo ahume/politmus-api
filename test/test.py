@@ -7,8 +7,10 @@ hostname = 'http://localhost:8085'
 class PolitmusAPITest(unittest.TestCase):
 
 	def get_data(self, url):
-
 		return json.load(urllib2.urlopen('%s%s' % (hostname, url) ))
+
+	def post_data(self, url):
+		return json.load(urllib2.urlpost('%s%s' % (hostname, url) ))
 
 class TestMPProfile(PolitmusAPITest):
 
@@ -53,7 +55,7 @@ class TestMPList(PolitmusAPITest):
 		data = self.get_data('/mps?count=2')
 
 		self.assertEqual(data['status'], 200)
-		self.assertTrue(data['total'] > 0)
+		self.assertEqual(data['total'], 8)
 		self.assertEqual(data['count'], 2)
 		self.assertEqual(len(data['mps']), 2)
 
@@ -122,7 +124,7 @@ class TestUserList(PolitmusAPITest):
 		data = self.get_data('/users?count=2')
 
 		self.assertEqual(data['status'], 200)
-		self.assertTrue(data['total'] > 0)
+		self.assertEqual(data['total'], 18)
 		self.assertEqual(data['count'], 2)
 		self.assertEqual(len(data['users']), 2)
 
@@ -156,9 +158,18 @@ class TestQuestionList(PolitmusAPITest):
 		data = self.get_data('/questions?count=2')
 
 		self.assertEqual(data['status'], 200)
-		self.assertTrue(data['total'] > 0)
+		self.assertEqual(data['total'], 11)
 		self.assertEqual(data['count'], 2)
 		self.assertEqual(len(data['questions']), 2)
+
+class TestMPMatching(PolitmusAPITest):
+
+	def test_matching_data(self):
+
+		# Whack some test user votes in.
+		data = self.get_data('/users/andyhume/votes?question=ahBkZXZ-cG9saXRtdXMtYXBpcg4LEghRdWVzdGlvbhgdDA&selection=no')
+		print data
+
 
 
 if __name__ == '__main__':

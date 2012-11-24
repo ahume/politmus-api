@@ -1,8 +1,49 @@
 import json
+import logging
 
 from google.appengine.ext import db
 
-from models import UserVote, Question
+from models import UserVote, MPVote, Question
+
+score_matching = {
+	'aye': { 'aye': 100 },
+	'no': { 'no': 100 },
+	'both': { 'aye': 20, 'no': 20, 'dont-care': 50 }
+}
+
+def calculate_score(m, u):
+	try:
+		return score_matching[m][u]
+	except:
+		return 0
+
+def compareMP(user):
+	# Calculating MP match in real time. Should do this once, when votes are inserted.
+	questions = Question.all()
+
+	# Get UserVotes and capture the IDs
+	user_votes = UserVote.all().filter('user_username =', user.username)
+	question_ids = [a.question for a in user_votes]
+
+	both_voted_on = 0
+	exact_match_on = 0
+	score = 0
+
+	# Get MPVotes for the appropriate UserVotes
+
+	for u_vote in user_votes:
+		mp_vote = MPVote.all().filter('question =', u_vote.question)
+		if mp_vote.count() > 0:
+			both_voted_on = both_voted_on + 1
+			if score == 100:
+				exact_match_on = exact_match_on + 1
+			score = score + calculate_score(mp_vote[0].selection, u_vote.selection)
+
+	return {
+		'both_voted_on': both_voted_on,
+		'exact_match_on': exact_match_on,
+		'politmus_score': score / user_votes.count()
+	}
 
 def getAnsweredQuestionsFor(username):
 	return UserVote.all().filter('username =', username)
@@ -34,6 +75,8 @@ def mp_to_dict(mp):
 def user_to_dict(user):
 	u = db.to_dict(user)
 	u['details'] = '/users/%s' % user.username
+	del u['constituency_score']
+	del u['mp_score']
 	return u
 
 class QueryFilter(object):

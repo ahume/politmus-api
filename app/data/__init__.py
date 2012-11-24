@@ -23,6 +23,8 @@ def import_users():
             u.ethnicity = row['ethnicity']
             u.postcode = row['postcode']
             u.constituency = row['constituency']
+            u.constituency_score = row['constituency_score']
+            u.mp_score = row['mp_score']
             u.mp = row['mp']
         
             u.put()

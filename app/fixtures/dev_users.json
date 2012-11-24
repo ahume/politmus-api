@@ -6,7 +6,9 @@
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Brighton, Kemptown",
-		"mp": "Simon Kirby"
+		"mp": "Simon Kirby",
+		"constituency_score": 0,
+		"mp_score": 0
 	},
 	{
 		"username": "rutter",
@@ -15,7 +17,9 @@
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Brighton, Kemptown",
-		"mp": "Simon Kirby"
+		"mp": "Simon Kirby",
+		"constituency_score": 0,
+		"mp_score": 0
 	},
 	{
 		"username": "plloyd",
@@ -24,7 +28,9 @@
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Brighton, Pavillion",
-		"mp": "Caroline Lucas"
+		"mp": "Caroline Lucas",
+		"constituency_score": 0,
+		"mp_score": 0
 	},
 	{
 		"username": "allmarkedup",
@@ -33,7 +39,9 @@
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Hove",
-		"mp": "Mike Weatherley"
+		"mp": "Mike Weatherley",
+		"constituency_score": 0,
+		"mp_score": 0
 	},
 	{
 		"username": "jeremy",
@@ -42,7 +50,9 @@
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Brighton, Pavillion",
-		"mp": "Caroline Lucas"
+		"mp": "Caroline Lucas",
+		"constituency_score": 0,
+		"mp_score": 0
 	},
 	{
 		"username": "josh",
@@ -51,7 +61,9 @@
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Brighton, Pavillion",
-		"mp": "Caroline Lucas"
+		"mp": "Caroline Lucas",
+		"constituency_score": 0,
+		"mp_score": 0
 	},
 		{
 		"username": "andybudd",
@@ -60,7 +72,9 @@
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Brighton, Kemptown",
-		"mp": "Simon Kirby"
+		"mp": "Simon Kirby",
+		"constituency_score": 0,
+		"mp_score": 0
 	},
 		{
 		"username": "mike",
@@ -69,7 +83,9 @@
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Hackney South and Shoreditch",
-		"mp": "Meg Hillier"
+		"mp": "Meg Hillier",
+		"constituency_score": 0,
+		"mp_score": 0
 	},
 		{
 		"username": "boxman",
@@ -78,7 +94,9 @@
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Brighton, Pavillion",
-		"mp": "Caroline Lucas"
+		"mp": "Caroline Lucas",
+		"constituency_score": 0,
+		"mp_score": 0
 	},
 		{
 		"username": "batesy",
@@ -87,7 +105,9 @@
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Hove",
-		"mp": "Mike Weatherley"
+		"mp": "Mike Weatherley",
+		"constituency_score": 0,
+		"mp_score": 0
 	},
 		{
 		"username": "ben",
@@ -96,7 +116,9 @@
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Hove",
-		"mp": "Mike Weatherley"
+		"mp": "Mike Weatherley",
+		"constituency_score": 0,
+		"mp_score": 0
 	},
 		{
 		"username": "jon",
@@ -105,7 +127,9 @@
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Brighton, Kemptown",
-		"mp": "Simon Kirby"
+		"mp": "Simon Kirby",
+		"constituency_score": 0,
+		"mp_score": 0
 	},
 		{
 		"username": "jessica",
@@ -114,7 +138,9 @@
 		"gender": "female",
 		"ethnicity": "white",
 		"constituency": "Brighton, Kemptown",
-		"mp": "Simon Kirby"
+		"mp": "Simon Kirby",
+		"constituency_score": 0,
+		"mp_score": 0
 	},
 		{
 		"username": "kate",
@@ -123,7 +149,9 @@
 		"gender": "female",
 		"ethnicity": "white",
 		"constituency": "Brighton, Kemptown",
-		"mp": "Simon Kirby"
+		"mp": "Simon Kirby",
+		"constituency_score": 0,
+		"mp_score": 0
 	},
 		{
 		"username": "kyle",
@@ -132,7 +160,9 @@
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Brighton, Pavillion",
-		"mp": "Caroline Lucas"
+		"mp": "Caroline Lucas",
+		"constituency_score": 0,
+		"mp_score": 0
 	},
 		{
 		"username": "brian",
@@ -141,7 +171,9 @@
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Edinburgh North, and Leith",
-		"mp": "Mark Lazarowicz"
+		"mp": "Mark Lazarowicz",
+		"constituency_score": 0,
+		"mp_score": 0
 	},
 		{
 		"username": "harry",
@@ -150,7 +182,9 @@
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Brighton, Pavillion",
-		"mp": "Caroline Lucas"
+		"mp": "Caroline Lucas",
+		"constituency_score": 0,
+		"mp_score": 0
 	},
 		{
 		"username": "emil",
@@ -159,6 +193,8 @@
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Brighton, Pavillion",
-		"mp": "Caroline Lucas"
+		"mp": "Caroline Lucas",
+		"constituency_score": 0,
+		"mp_score": 0
 	}
 ]

@@ -16,6 +16,8 @@ class User(db.Expando):
 	ethnicity = db.StringProperty()
 	constituency = db.StringProperty()
 	mp = db.StringProperty()
+	constituency_score = db.IntegerProperty()
+	mp_score = db.IntegerProperty()
 
 class MP(db.Expando):
 	name = db.StringProperty()
