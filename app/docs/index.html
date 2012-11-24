@@ -1,0 +1,697 @@
+<!doctype html>
+<!--[if IE 7]><html class="no-js ie ie7"> <![endif]-->
+<!--[if IE 8]><html class="no-js ie ie8"> <![endif]-->
+<!--[if IE 9]><html class="no-js ie ie9"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="UTF-8">
+	<title>Project &quot;Litmus&quot; API documentation</title>
+	<link rel="stylesheet" href="css/master.css">
+		<script src="js/jquery-1.8.2.min.js"></script>
+		<script src="js/app.js"></script>
+</head>
+<body>
+	<div class="wrap">
+		<h1>API-endpoints</h1>
+		
+		<h2>Users</h2>
+		<ul class="eps">
+			<li class="ep-get">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#get-users-details"><i class="ep-verb">GET</i> <code class="ep-url">/users</code></a></h3>
+					<p class="ep-summary">Gets a list of users.</p>
+					<p class="ep-level ep-internal">Internal</p>
+				</div>
+				<div id="get-users-details" class="ep-body">
+					<p>Doing a GET-request of this endpoint is for internal use only, and returns a list of user objects, paginated by including a custom HTTP-header.</p>
+					<h4>Possible filters (as URL-parameters)</h4>
+					<ul class="ep-parameters">
+						<li><code>age_min</code></li>
+						<li><code>age_max</code></li>
+						<li><code>constituency</code></li>
+						<li><code>postcode</code></li>
+						<li><code>ethnicity</code></li>
+						<li><code>gender</code></li>
+						<li>&hellip;etc</li>
+					</ul>
+					<h4>Possible JSON response</h4>
+					<code class="ep-response">
+						<pre>
+{
+  'status': 200,
+  'users': [
+    {
+      'username': 'andyhume',
+      'first_name': 'Andy', // Optional
+      'last_name': 'Hume', // Optional
+      'birth_date': '1980-01-20',
+      'phone_no': '+44123123123',
+      'email': 'andyhume@politmus.com',
+      'constituency': 'brighton-kemptown', // constituency slug
+      'postcode': 'BN2 1NB',
+      'street_address': 'Lorem ipsum 12B',
+      'locality': 'Brighton',
+      'current_mp': 'abc123' // current MP id
+    },
+    {
+      ...
+    }
+  ]
+}
+						</pre>
+					</code>
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+				</div>
+			</li>
+			<li class="ep-post">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#post-users-details"><i class="ep-verb">POST</i> <code class="ep-url">/users</code></a></h3>
+					<p class="ep-summary">Creates a new user</p>
+					<p class="ep-level ep-authenticated">Authenticated</p>
+				</div>
+				<div id="post-users-details" class="ep-body">
+					<p>Doing a POST-request to this endpoint creates a new user</p>
+					<h4>Possible POST-parameters</h4>
+					<ul class="ep-parameters">
+						<li><code>username</code></li>
+						<li><code>password</code></li>
+						<li><code>postcode</code></li>
+						<li>&hellip;etc</li>
+					</ul>
+					
+					<h4>Possible JSON response</h4>
+					<code>
+						<pre>
+{
+  'status': 201,
+  'url': '/users/andyhume',
+  'user': {
+      'username': 'andyhume',
+      'first_name': 'Andy', // Optional
+      'last_name': 'Hume', // Optional
+      'birth_date': '1980-01-20',
+      'phone_no': '+44123123123',
+      'email': 'andyhume@politmus.com',
+      'constituency': 'brighton-kemptown', // constituency slug
+      'postcode': 'BN2 1NB',
+      'street_address': 'Lorem ipsum 12B',
+      'locality': 'Brighton',
+      'current_mp': 'abc123' // current MP id
+  }
+}
+						</pre>
+					</code>
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+				</div>
+			</li>
+			<li class="ep-get">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#get-users-username-details"><i class="ep-verb">GET</i> <code class="ep-url">/users/{username}</code></a></h3>
+					<p class="ep-summary">Gets the data for a specific user</p>
+					<p class="ep-level ep-authenticated">Authenticated</p>
+				</div>
+				<div id="get-users-username-details" class="ep-body">
+					<p>Getting the user data for an individual user is an authenticated endpoint. Returns all the various user preferences and demographic data of the user.</p>
+					<h4>Possible JSON response</h4>
+					
+					<code class="ep-response">
+						<pre>
+{
+  'status': 200,
+  'user': {
+    'username': 'andyhume',
+    'first_name': 'Andy', // Optional
+    'last_name': 'Hume', // Optional
+    'birth_date': '1980-01-20',
+    'phone_no': '+44123123123',
+    'email': 'andyhume@politmus.com',
+    'constituency': 'brighton-kemptown', // constituency slug
+    'postcode': 'BN2 1NB',
+    'street_address': 'Lorem ipsum 12B',
+    'locality': 'Brighton',
+    'current_mp': 'abc123' // current MP id
+  }
+}
+						</pre>
+					</code>
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+				</div>
+			</li>
+			<li class="ep-delete">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#delete-users-username-details"><i class="ep-verb">DELETE</i> <code class="ep-url">/users/{username}</code></a></h3>
+					<p class="ep-summary">Deletes a specific user</p>
+					<p class="ep-level ep-internal">Internal</p>
+				</div>
+				<div id="delete-users-username-details" class="ep-body">
+					<p>Deleting a user from the service is only available internally.</p>
+					
+					<h4>Possible JSON response</h4>
+					<code>
+						<pre>
+{
+  'status': 200
+}
+						</pre>
+					</code>
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+				</div>
+			</li>
+			<li class="ep-put">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#put-users-username-details"><i class="ep-verb">PUT</i> <code class="ep-url">/users/{username}</code></a></h3>
+					<p class="ep-summary">Updates a specific user</p>
+					<p class="ep-level ep-authenticated">Authenticated</p>
+				</div>
+				<div id="put-users-username-details" class="ep-body">
+					<p>Updates details of a specific user. Needs authentication.</p>
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+					
+					<h4>Parameters</h4>
+					<p>Pass in keys and values for the properties on the user you would like to update.</p>
+					
+					<h4>Possible JSON response</h4>
+					<code>
+						<pre>
+{
+  'status': 200,
+  'url': '/users/andyhume'
+  'user': {
+      'username': 'andyhume',
+      'first_name': 'Andy', // Optional
+      'last_name': 'Hume', // Optional
+      'birth_date': '1980-01-20',
+      'phone_no': '+44123123123',
+      'email': 'andyhume@politmus.com',
+      'constituency': 'brighton-kemptown', // constituency slug
+      'postcode': 'BN2 1NB',
+      'street_address': 'Lorem ipsum 12B',
+      'locality': 'Brighton',
+      'current_mp': 'abc123' // current MP id
+  }
+}
+						</pre>
+					</code>
+				</div>
+			</li>
+			<li class="ep-get">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#get-users-username-votes-details"><i class="ep-verb">GET</i> <code class="ep-url">/users/{username}/votes</code></a></h3>
+					<p class="ep-summary">Gets questions that a user has voted on</p>
+					<p class="ep-level ep-authenticated">Authenticated</p>
+				</div>
+				<div id="get-users-username-votes-details" class="ep-body">
+					<p>Getting the issues that a specific user has voted on is an authenticated endpoint.</p>
+					
+					<h4>URL parameter filters</h4>
+					<p>You can filter which questions to return by <code>question_id</code>, <code>selection</code>, <code>date_from</code>, <code>date_to</code></p>
+					
+					<h4>Possible JSON response</h4>
+					
+					<code class="ep-response">
+						<pre>
+{
+  'status': 200,
+  'votes': [
+    {
+      'question': {
+      	'id': 'sdlkjlsdjflsjf913491294ldjfjanf',
+        'description': 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
+        'title': 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. At possimus quasi consequatur ipsum nisi voluptate nihil modi labore vero ducimus similique.',
+        'supporting_url': 'http://example.com/issue/lorem-ipsum'
+      },
+      'selection': 'aye',
+    },
+    {
+    	...
+    }
+  ]
+}
+						</pre>
+					</code>
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+				</div>
+			</li>
+			
+			
+			
+			<li class="ep-post">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#post-users-username-questions-question-details"><i class="ep-verb">POST</i> <code class="ep-url">/users/{username}/votes</code></a></h3>
+					<p class="ep-summary">Casts a vote for the user on a specific question</p>
+					<p class="ep-level ep-authenticated">Authenticated</p>
+				</div>
+				<div id="post-users-username-questions-question-details" class="ep-body">
+					<p>This endpoint requires authentication. Casts a vote for the user on a specific question, specified by a <code>question_id</code> parameter.</p> 
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+				</div>
+			</li>
+			
+			<li class="ep-get">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#get-users-username-votes-vote-details"><i class="ep-verb">GET</i> <code class="ep-url">/users/{username}/votes/{vote-id}</code></a></h3>
+					<p class="ep-summary">Gets a specific question that a user has voted on</p>
+					<p class="ep-level ep-authenticated">Authenticated</p>
+				</div>
+				<div id="get-users-username-votes-vote-details" class="ep-body">
+					<p>Getting the vote from a user on a specific question is an authenticated endpoint.</p>
+					
+					<h4>Possible JSON response</h4>
+					
+					<code class="ep-response">
+						<pre>
+{
+  'status': 200,
+  'vote': {
+    'question': {
+      'id': 'sdlkjlsdjflsjf913491294ldjfjanf',
+      'description': 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
+      'title': 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. At possimus quasi consequatur ipsum nisi voluptate nihil modi labore vero ducimus similique.',
+      'supporting_url': 'http://example.com/issue/lorem-ipsum'
+  },
+  'selection': 'aye',
+  },
+}
+						</pre>
+					</code>
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+				</div>
+			</li>
+			<li class="ep-put">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#put-users-username-questions-question-details"><i class="ep-verb">PUT</i> <code class="ep-url">/users/{username}/votes/{vote-id}</code></a></h3>
+					<p class="ep-summary">Changes a vote for the user on a specific question</p>
+					<p class="ep-level ep-authenticated">Authenticated</p>
+				</div>
+				<div id="put-users-username-questions-question-details" class="ep-body">
+					<p>This endpoint requires authentication. Changes a vote for the user on the specific question.</p>
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+				</div>
+			</li>
+			
+			<li class="ep-delete">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#delete-users-username-votes-question-details"><i class="ep-verb">DELETE</i> <code class="ep-url">/users/{username}/votes/{vote-id}</code></a></h3>
+					<p class="ep-summary">Deletes the vote from the user on a specific issue.</p>
+					<p class="ep-level ep-internal">Internal</p>
+				</div>
+				<div id="delete-users-username-votes-question-details" class="ep-body">
+					<p>Deletes the data around the users vote on a specific question</p>
+					<h4>Possible JSON response when successful</h4>
+					
+					<code class="ep-response">
+						<pre>
+{
+  'status': '200'
+}
+						</pre>
+					</code>
+					<h4>Possible JSON response when vote is non-existant/already deleted</h4>
+					
+					<code class="ep-response">
+						<pre>
+{
+  'status': '404'
+}
+						</pre>
+					</code>
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+				</div>
+			</li>
+			<li class="ep-get">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#get-users-username-suggested-questions-details"><i class="ep-verb">GET</i> <code class="ep-url">/users/{username}/suggested-questions</code></a></h3>
+					<p class="ep-summary">Gets suggestions of questions to ask the user.</p>
+					<p class="ep-level ep-authenticated">Authenticated</p>
+				</div>
+				<div id="get-users-username-suggested-questions-details" class="ep-body">
+					<p>Gets a list of questions that the user has not yet voted on, as a suggestion for what to vote on next, based on possibly previous voting patterns and upcoming vote dates in parliament.</p>
+					<h4>Possible JSON response</h4>
+					
+					<code class="ep-response">
+						<pre>
+{
+  'questions': [
+    {
+      'id': 'sdasdasd-123123-asdasd-asdasd',
+      'description': 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
+      'title': 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. At possimus quasi consequatur ipsum nisi voluptate nihil modi labore vero ducimus similique.',
+      'supporting_url': 'http://example.com/issue/lorem-ipsum'
+    },
+    {
+    	...
+    }
+  ]
+}
+						</pre>
+					</code>
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+				</div>
+			</li>
+		</ul>
+		
+		<h2>MP:s</h2>
+		<ul class="eps">
+			<li class="ep-get">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#get-mps-details"><i class="ep-verb">GET</i> <code class="ep-url">/mps</code></a></h3>
+					<p class="ep-summary">Gets a list of all MP:s</p>
+				</div>
+				<div id="get-mps-details" class="ep-body">
+					<p>Returns a list of MP:s and their details.</p>
+					<h4>Possible filters (as URL parameters)</h4>
+					<ul class="ep-parameters">
+						<li><code>party</code></li>
+						<li><code>age_min</code></li>
+						<li><code>age_max</code></li>
+						<li><code>date_from</code></li>
+						<li><code>date_to</code></li>
+						<li><code>gender</code></li>
+						<li><code>constituency</code></li>
+						<li><code>postcode</code></li>
+					</ul>
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+				</div>
+			</li>
+			<li class="ep-get">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#get-mps-mp-details"><i class="ep-verb">GET</i> <code class="ep-url">/mps/{mp-id}</code></a></h3>
+					<p class="ep-summary">Gets a specific MP</p>
+				</div>
+				<div id="get-mps-mp-details" class="ep-body">
+					<p>Returns a specific MP and their details.</p>
+					<h4>Possible JSON response</h4>
+					<code class="ep-response">
+						<pre>
+{
+  'id': 'abc-123',
+  'first_name': 'John',
+  'last_name': 'Smith',
+  'party': 'labour',
+  'constituency': 'brighton-hove',
+  'birth_date': '1964-03-24',
+  'appointed_date': '2003-04-04',
+  'ended_date': '2008-04-01'
+}
+						</pre>
+					</code>
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+				</div>
+			</li>
+			<li class="ep-get">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#get-mps-mp-votes-details"><i class="ep-verb">GET</i> <code class="ep-url">/mps/{mp-id}/votes</code></a></h3>
+					<p class="ep-summary">Gets a list of all votes from a specific MP.</p>
+				</div>
+				<div id="get-mps-mp-votes-details" class="ep-body">
+					<p>Returns a specific MP and their details.</p>
+					<h4>Possible JSON response</h4>
+					<code class="ep-response">
+						<pre>
+{
+  'votes': [
+    {
+      'id': 'asdgaf-12312321-sadasda-12313',
+      'vote': 'no',
+    },
+    {
+      'id': 'a123-ghdfdf-123sgxcg-236236',
+      'vote': 'aye',
+    },
+    {
+      'id': 'dasdasdasd-235235-sadas3454da-12ewrwer313',
+      'vote': 'both',
+    }
+    {
+      ...
+    }
+  ]
+}
+						</pre>
+					</code>
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+				</div>
+			</li>
+			
+			<li class="ep-get">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#get-mps-votes-details"><i class="ep-verb">GET</i> <code class="ep-url">/mps/votes</code></a></h3>
+					<p class="ep-summary">Gets a list of questions and how MP:s voted.</p>
+				</div>
+				<div id="get-mps-votes-details" class="ep-body">
+					<p>Returns a list of questions and how MP:s voted on them.</p>
+					<h4>Possible JSON response</h4>
+					<code class="ep-response">
+						<pre>
+{
+  'votes': [
+    {
+      'question-id': 'asdgaf-12312321-sadasda-12313',
+      'no_percent': '73.34',
+      'aye_percent': '22.23',
+      'abstain_percent': '2.00',
+      'absent_percent': '2.43'
+    },
+    {
+      'question-id': 'a123-ghdfdf-123sgxcg-236236',
+      'no_percent': '49.00',
+      'aye_percent': '24.50',
+      'abstain_percent': '20.00',
+      'absent_percent': '6.50'
+    },
+    {
+      ...
+    }
+  ]
+}
+						</pre>
+					</code>
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+				</div>
+			</li>
+			<li class="ep-get">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#get-mps-votes-question-details"><i class="ep-verb">GET</i> <code class="ep-url">/mps/votes/{question-id}</code></a></h3>
+					<p class="ep-summary">Gets all votes from MP:s on a specific question.</p>
+				</div>
+				<div id="get-mps-votes-question-details" class="ep-body">
+					<p>Returns a list of all individual votes from MP:s on a specific question.</p>
+					<p>Included in the response is also an aggregate in percentages on the types of responses in percent.</p>					
+					<h4>Possible JSON response in aggregate view</h4>
+					<code class="ep-response">
+						<pre>
+{
+  'id': 'a123-ghdfdf-123sgxcg-236236',
+  'aggregates': {
+    'id': 'a123-ghdfdf-123sgxcg-236236',
+    'no_percent': '73.34',
+    'aye_percent': '22.23',
+    'abstain_percent': '2.00',
+    'absent_percent': '2.43'
+  },
+  'selections': {
+  	'abc123': 'aye'
+  	'asa345': 'aye'
+  	'bcef234': 'no'
+  	'cde154': 'no'
+  	'cht6235': 'aye'
+  	'abc123': 'aye'
+  	'abc123': 'aye'
+  	'abc123': 'both'
+  	...
+  }
+}
+						</pre>
+					</code>
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+				</div>
+			</li>
+		</ul>
+		
+		<h2>Constituencies</h2>
+		
+		<ul class="eps">
+			<li class="ep-get">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#get-constituencies-details"><i class="ep-verb">GET</i> <code class="ep-url">/constituencies</code></a></h3>
+					<p class="ep-summary">Gets a list of constituencies.</p>
+				</div>
+				<div id="get-constituencies-details" class="ep-body">
+					<p>Gets a list of constituencies, possibly filtered on geographic properties or other parameters.</p>
+					<h4>Possible filters (as URL-parameters)</h4>
+					<ul class="ep-parameters">
+						<li><code>postcode</code></li>
+						<li><code>county</code></li>
+						<li>&hellip;etc</li>
+					</ul>
+					
+					<h4>Possible JSON response</h4>
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+				</div>
+			</li>
+			<li class="ep-get">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#get-constituencies-constituency-details"><i class="ep-verb">GET</i> <code class="ep-url">/constituencies/{constituency-slug}</code></a></h3>
+					<p class="ep-summary">Gets a specific constituency.</p>
+				</div>
+				<div id="get-constituencies-constituency-details" class="ep-body">
+					<p>Gets data on a specific constituency.</p>
+					
+					<h4>Possible JSON response</h4>
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+				</div>
+			</li>
+		</ul>
+		
+		<h2>Questions</h2>
+		
+		<ul class="eps">
+			<li class="ep-get">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#get-questions-details"><i class="ep-verb">GET</i> <code class="ep-url">/questions</code></a></h3>
+					<p class="ep-summary">Gets a list of questions.</p>
+				</div>
+				
+				<div class="ep-body" id="get-questions-details">
+					<p>Gets a list of questions, and their associated metadata, paginated and filtered by query parameters.</p>
+					<h4>Possible URL parameter filters</h4>
+					<ul class="ep-params">
+						<li><code>vote_date_from</code></li>
+						<li><code>vote_date_to</code></li>
+						<li><code>policy_area</code></li>
+						<li><code>author</code></li>
+						<li><code>party</code></li>
+						<li>&hellip;etc</li>
+					</ul>
+					<h4>Possible JSON response</h4>
+					<code>
+						<pre>
+{
+  'status': 200,
+  'questions': [
+    {
+      'id': 'sdasdasd-123123-asdasd-asdasd',
+      'description': 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
+      'title': 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. At possimus quasi consequatur ipsum nisi voluptate nihil modi labore vero ducimus similique.',
+      'supporting_url': 'http://example.com/issue/lorem-ipsum'
+    },
+    ...
+  ]
+}
+						</pre>
+					</code>
+					
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+				</div>
+			</li>
+			<li class="ep-get">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#get-questions-question-details"><i class="ep-verb">GET</i> <code class="ep-url">/questions/{question-id}</code></a></h3>
+					<p class="ep-summary">Gets a specific question.</p>
+				</div>
+				
+				<div class="ep-body" id="get-questions-question-details">
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+				</div>
+			</li>
+		</ul>
+		
+		
+		
+		<h2>Policies</h2>
+		
+		<ul class="eps">
+			<li class="ep-get">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#get-policies-details"><i class="ep-verb">GET</i> <code class="ep-url">/policies</code></a></h3>
+					<p class="ep-summary">Gets a list of policy areas.</p>
+				</div>
+				<div id="get-policies-details" class="ep-body">
+					<p>Gets a list of policy areas.</p>
+					
+					<h4>Possible JSON response</h4>
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+				</div>
+			</li>
+			<li class="ep-get">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#get-policies-policy-details"><i class="ep-verb">GET</i> <code class="ep-url">/policies/{policy-slug}</code></a></h3>
+					<p class="ep-summary">Gets a specific policy area.</p>
+				</div>
+				<div id="get-policies-policy-details" class="ep-body">
+					<p>Gets data on a specific policy area, for example <code>environment</code>, <code>healthcare</code> etc.</p>
+					
+					<h4>Possible JSON response</h4>
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+				</div>
+			</li>
+		</ul>
+		
+		<h2>Comparisons</h2>
+		
+		<ul class="eps">
+			<li class="ep-get">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#get-comparisons-details"><i class="ep-verb">GET</i> <code class="ep-url">/comparisons</code></a></h3>
+					<p class="ep-summary">Gets a comparison on entities passed in via parameters.</p>
+					<p class="ep-level ep-authenticated">Authenticated</p>
+				</div>
+				<div id="get-comparisons-details" class="ep-body">
+					<p>Gets comparison data via passing in URL parameter with microsyntax denoting which entities to compare and on what parameters. Comparisons always return percentages for various entities or items in the service, based on number of similar votes on questions.</p>
+					
+					<h4>Format of <code>item</code> parameter microsyntax</h4>
+					<p>Entities are separated via the pipe (<code>|</code>) character. Key/value pairs are specified with <code>key:value</code> syntax, separated by comma. Each entity is denoted via the <code>type</code> key, and the first passed in entity is used as the base for comparisons.</p>
+					<p>Additionally, a special type of entity might be a <code>limit</code> type, enforcing rules on what to compare.</p>
+					
+					<h4>Hypothetical example</h4>
+					
+					<code>compare?items=type:user,username:andyhume|type:usergroup,gender:female|mps:abc123|type:limit,policy:education</code>
+					
+					<p>The above example would compare the user with username of "andyhume" to both all female users as well as a specific MP on how they compare on questions to do with policies in education.</p>
+					
+					<h4>Possible JSON response</h4>
+					
+					<code>
+						<pre>
+{
+  'status': 200,
+  'limits': {
+    'policy': 'environment'
+  },
+  'items': {
+    [
+      {
+      	'user': {
+      	  'username': 'andyhume',
+      	  'first_name': 'Andy',
+      	  'last_name': 'Hume'
+      	},
+      	'politmus_score': 100
+      },
+      {
+        'usergroup': {
+          'gender': 'female'
+        },
+        'politmus_score': 64
+      }
+      {
+      	'mp': {
+      	  'id': 'abc123',
+      	  'first_name': 'Caroline',
+      	  'last_name': 'Lucas'
+      	},
+      	'politmus_score': 43
+      }
+    ]
+  }
+}
+						</pre>
+					</code>
+					
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+				</div>
+			</li>
+		</ul>
+	</div>	
+</body>
+</html>

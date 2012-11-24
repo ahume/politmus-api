@@ -1,0 +1,218 @@
+body {
+	font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+h1 {
+	border-bottom: 1px solid #eee;
+}
+
+h2 {
+	color: #666;
+	border-bottom: 1px solid #eee;
+}
+
+.wrap {
+	margin: 2em auto;
+	max-width: 48em;
+	min-width: 22em;
+	padding-right: 10em;
+}
+
+.eps {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.eps li {
+	margin: 0;
+	padding: 0;
+	margin-bottom: 10px;
+}
+a {
+	color: inherit;
+}
+
+.ep-get .ep-header {
+	border-top-color: #bad0ee;
+	background-color: #d8e7fd;
+	color: #16345f;
+}
+.ep-get .ep-verb {
+	background-color: #16345f;
+}
+.ep-post .ep-header {
+	border-color: #adeaa8;
+	background-color: #d5ffd9;
+	color: #116730;
+}
+.ep-post .ep-verb {
+	background-color: #116730;
+}
+
+.ep-delete .ep-verb {
+	background-color: #6c1712;
+}
+
+.ep-delete .ep-header {
+	border-color: #f89c90;
+	background-color: #ffccbf;
+	color: #6c1712;
+}
+.ep-put .ep-verb {
+	background-color: #e0ce2d;
+	color: #37320b;
+}
+.ep-put .ep-header {
+	border-color: #e5e176;
+	background-color: #fef8ad;
+	color: #6c1712;
+}
+.ep-header {
+	border-top: 1px solid;
+	position: relative;
+}
+.ep-header a {
+	text-decoration: none;
+}
+.ep-level {
+	font-size: 12px;
+	position: absolute;
+	left: 100%;
+	top: 50%;
+	line-height: 1.666666667;
+	margin: -10px 0 0 14px;
+	padding: 0 5px;
+	background-color: #ddd;
+	-webkit-box-shadow: 2px 2px 2px rgba(0,0,0,0.1);
+	-moz-box-shadow: 2px 2px 2px rgba(0,0,0,0.1);
+	box-shadow: 2px 2px 2px rgba(0,0,0,0.1);
+}
+.ep-level:before {
+	content: '';
+	display: block;
+	width: 0px;
+	height: 0px;
+	border: 10px solid transparent;
+	border-left-width: 0;
+	position: absolute;
+	left: -10px;
+}
+.ep-internal {
+	background-color: #fbccb3;
+	color: #512e29;
+}
+.ep-internal:before {
+	border-right-color: #fbccb3;
+}
+.ep-authenticated {
+	background-color: #fbf3b2;
+	color: #514724;
+}
+.ep-authenticated:before {
+	border-right-color: #fbf3b2;
+}
+.ep-header:after {
+	display: table;
+	content: '';
+	clear: both;
+}
+.ie .ep-header {
+	zoom: 1;
+}
+.ep-summary {
+	float: right;
+	font-style: italic;
+}
+.ep-body {
+	position: relative;
+	overflow: hidden;
+	padding: 0 10px;
+	background-color: #fafafa;
+	background-image: -webkit-linear-gradient(top, #f3f3f3, #fff);
+	background-image: -moz-linear-gradient(top, #f3f3f3, #fff);
+	background-image: -ms-linear-gradient(top, #f3f3f3, #fff);
+	background-image: -o-linear-gradient(top, #f3f3f3, #fff);
+	background-image: linear-gradient(top, #f3f3f3, #fff);
+	height: 1px;
+	-webkit-transition: 0.3s all ease-in-out;
+	-moz-transition: 0.3s all ease-in-out;
+	-ms-transition: 0.3s all ease-in-out;
+	-o-transition: 0.3s all ease-in-out;
+	transition: 0.3s all ease-in-out;
+}
+.ep-body-active {
+	height: auto;
+	min-height: 240px;
+}
+.ie7.no-js .ep-body,
+.ie8.no-js .ep-body {
+	height: auto;
+}
+.no-js .ep-body:target {
+	height: auto;
+	min-height:  240px;
+	padding: 20px 10px;
+	background-color: #fff;
+}
+.ep-url,
+.ep-verb {
+	float: left;
+	font-size: 16px;
+	line-height: 1.25;
+	padding: 5px 10px;
+}
+.ep-verb {
+	text-transform: uppercase;
+	width: 5em;
+	font-style: normal;
+	color: #fff;
+	letter-spacing: 0.1em;
+}
+
+.ep-h {
+	margin: 0;
+}
+.ep-url {
+	font-size: 13px;
+	line-height: 1.538461538;
+}
+
+.ep-summary {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.428571429;
+	padding: 5px 10px;
+}
+.ep-response {
+	background-color: #ddd;
+	font-size: 14px;
+}
+.ep-parameters li {
+	list-style: disc;
+}
+.ep-parameters li code {
+	background-color: #ddd;
+	color: #333;
+	padding: 5px;
+}
+.has-js .ep-close {
+	display: none;
+}
+.ep-close {
+	display: inline-block;
+	width: 24px;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+	background-color: #666;
+	color: #fff;
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 20px;
+	text-align: center;
+	text-decoration: none;
+	padding-bottom: 4px;
+}
