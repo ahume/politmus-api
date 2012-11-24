@@ -12,10 +12,9 @@ from models import User, MP, Constituency, UserVote, Question, MPVote
 import utils
 
 
-class ConstituencyListHandler(webapp.RequestHandler):
+class ConstituencyListHandler(webapp.RequestHandler, utils.QueryFilter, utils.JsonAPIResponse):
 	def get(self):
 		response = {
-			'status': 200,
 			'constituencies': []
 		}
 
@@ -25,22 +24,18 @@ class ConstituencyListHandler(webapp.RequestHandler):
 
 			response['constituencies'].append(c)
 
-		self.response.headers['Content-Type'] = 'application/json'
-		self.response.out.write(json.dumps(response))
+		self.returnJSON(200, response)
 
-class ConstituencyHandler(webapp.RequestHandler):
+class ConstituencyHandler(webapp.RequestHandler, utils.QueryFilter, utils.JsonAPIResponse):
 	def get(self, slug):
 
-		response = {
-			"status": 200,
-		}
+		response = {}
 
 		try:
 			response['constituency'] = db.to_dict(Constituency.all().filter('slug =', slug)[0])
 		except:
-			response['status'] = 404
 			response['error'] = 'Cannot find constituency'
+			self.returnJSON(404, response)
 
-		self.response.headers['Content-Type'] = 'application/json'
-		self.response.out.write(json.dumps(response))
+		self.returnJSON(200, response)
 

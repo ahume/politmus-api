@@ -16,7 +16,7 @@ class ImportQuestionsHandler(webapp.RequestHandler):
 
 class ImportMPVotesHandler(webapp.RequestHandler):
 	def get(self):
-		import_mp_votes(True)
+		import_mp_votes()
 		self.response.out.write("Done")
 
 class ImportUsersHandler(webapp.RequestHandler):

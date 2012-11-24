@@ -13,20 +13,26 @@ def import_users():
     jdata = open('fixtures/dev_users.json').read()
     d = json.loads(jdata)
 
-    for row in d:
-        u = User()
-        u.username = row['username']
-        u.gender = row['gender']
-        u.age = row['age']
-        u.ethnicity = row['ethnicity']
-        u.postcode = row['postcode']
-        u.constituency = row['constituency']
-        u.mp = row['mp']
-    
-        u.put()
-        print row['username']
+    if User.all().count() < 1:
+
+        for row in d:
+            u = User()
+            u.username = row['username']
+            u.gender = row['gender']
+            u.age = row['age']
+            u.ethnicity = row['ethnicity']
+            u.postcode = row['postcode']
+            u.constituency = row['constituency']
+            u.mp = row['mp']
+        
+            u.put()
+            print row['username']
 
 def import_mp_votes(subset=True):
+
+    if MPVote.all().count() > 0:
+        print "Import already complete"
+        return
 
     subset_const = [
         "Brighton, Kemptown",
@@ -54,7 +60,7 @@ def import_mp_votes(subset=True):
         d.publicwhip_url = row[3]
         d.put()
 
-        question_list[row[4]] = str(d.key())
+        question_list[row[4]] = d
 
     mps_created = []
     consts_created = []
@@ -70,8 +76,8 @@ def import_mp_votes(subset=True):
                 continue
 
             try:
-                v = MPVote()
-                v.question = question_list[question]
+                v = MPVote(parent=question_list[question])
+                v.question = str(question_list[question].key())
                 v.mp_name = row[0]
                 v.mp_slug = slugify(row[0])
                 v.mp_constituency = row[1]

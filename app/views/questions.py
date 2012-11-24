@@ -8,26 +8,22 @@ from google.appengine.api import memcache
 from google.appengine.ext import db
 
 from models import User, Question, UserVote
+import utils
 
-class QuestionHandler(webapp.RequestHandler):
+class QuestionHandler(webapp.RequestHandler, utils.JsonAPIResponse):
 
 	def get(self, question_key):
 
-		response = {
-			"status": 200,
-		}
+		response = {}
 
 		try:
 			question = Question.get(question_key)
-			q = db.to_dict(question)
-			q['date'] = str(question.date)
-			response['question'] = q
+			response['question'] = utils.question_to_dict(question)
 		except:
-			response['status'] = 404
 			response['error'] = 'Cannot find question'
+			self.returnJSON(404, response)
 
-		self.response.headers['Content-Type'] = 'application/json'
-		self.response.out.write(json.dumps(response))
+		self.returnJSON(200, response)
 
 
 """
@@ -63,11 +59,11 @@ class QuestionListHandler(webapp.RequestHandler):
 		}
 
 		for question in Question.all():
-			q = db.to_dict(question)
-			q['date'] = str(question.date)
+			q = utils.question_to_dict(question)
 			q['details'] = '/questions/%s' % str(question.key())
 
 			response['questions'].append(q)
+		response['total'] = len(response['questions'])
 
 		self.response.headers['Content-Type'] = 'application/json'
 		self.response.out.write(json.dumps(response))
