@@ -11,6 +11,22 @@ from google.appengine.ext import db
 from models import User, MP, UserVote, Question, MPVote
 import utils
 
+class UserVoteHandler(webapp.RequestHandler, utils.JsonAPIResponse):
+	def get(self, username, question_key):
+
+		response = {}
+
+		#try:
+		vote = UserVote.all().filter('user_username =', username).filter('question =', question_key)[0]
+		response['vote'] = db.to_dict(vote)
+		response['vote']['question'] = utils.question_to_dict(vote.parent())
+		#except:
+		#	response['error'] = 'Cannot find username'
+		#	self.returnJSON(404, response)
+		#	return
+
+		self.returnJSON(200, response)
+
 class MPVoteListHandler(webapp.RequestHandler, utils.QueryFilter, utils.JsonAPIResponse):
 	def get(self, slug):
 

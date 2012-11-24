@@ -25,6 +25,25 @@ class QuestionHandler(webapp.RequestHandler, utils.JsonAPIResponse):
 
 		self.returnJSON(200, response)
 
+class UserUnanwseredQuestionsListHandler(webapp.RequestHandler, utils.JsonAPIResponse):
+
+	def get(self, username):
+
+		response = {}
+
+		user_votes = UserVote.all().filter('user_username =', username)
+		anwsered_ids = [v.question for v in user_votes]
+		question_ids = [str(q.key()) for q in Question.all()]
+
+		filtered_ids = []
+		for q in question_ids:
+			if q not in anwsered_ids:
+				filtered_ids.append(q)
+
+		response['questions'] = [utils.question_to_dict(q) for q in Question.get(filtered_ids)]
+
+		self.returnJSON(200, response)
+
 
 """
 	def get(self, question_key):

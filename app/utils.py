@@ -39,11 +39,15 @@ def compareMP(user):
 				exact_match_on = exact_match_on + 1
 			score = score + calculate_score(mp_vote[0].selection, u_vote.selection)
 
+	if user_votes.count() > 0:
+		score = score / user_votes.count()
+
 	return {
 		'both_voted_on': both_voted_on,
 		'exact_match_on': exact_match_on,
-		'politmus_score': score / user_votes.count()
+		'politmus_score': score
 	}
+
 
 def getAnsweredQuestionsFor(username):
 	return UserVote.all().filter('username =', username)
