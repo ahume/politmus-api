@@ -2,7 +2,8 @@ import unittest
 import json
 import urllib2
 
-hostname = 'http://localhost:8085'
+#hostname = 'http://localhost:8085'
+hostname = 'http://politmus-api.appspot.com'
 
 class PolitmusAPITest(unittest.TestCase):
 
@@ -55,7 +56,7 @@ class TestMPList(PolitmusAPITest):
 		data = self.get_data('/mps?count=2')
 
 		self.assertEqual(data['status'], 200)
-		self.assertEqual(data['total'], 8)
+		self.assertTrue(data['total'] > 2)
 		self.assertEqual(data['count'], 2)
 		self.assertEqual(len(data['mps']), 2)
 

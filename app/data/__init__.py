@@ -30,7 +30,7 @@ def import_users():
             u.put()
             print row['username']
 
-def import_mp_votes(subset=True):
+def import_mp_votes(subset=False):
 
     if MPVote.all().count() > 0:
         print "Import already complete"

@@ -9,11 +9,6 @@ import models
 from data import import_mp_votes, import_users
 
 
-class ImportQuestionsHandler(webapp.RequestHandler):
-	def get(self):
-		import_questions()
-		self.response.out.write("Done")
-
 class ImportMPVotesHandler(webapp.RequestHandler):
 	def get(self):
 		import_mp_votes()
@@ -23,8 +18,4 @@ class ImportUsersHandler(webapp.RequestHandler):
 	def get(self):
 		import_users()
 		self.response.out.write("Done")
-
-class DeleteHandler(webapp.RequestHandler):
-	def get(self):
-		pass
 

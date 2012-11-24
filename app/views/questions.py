@@ -40,7 +40,8 @@ class UserUnanwseredQuestionsListHandler(webapp.RequestHandler, utils.JsonAPIRes
 			if q not in anwsered_ids:
 				filtered_ids.append(q)
 
-		response['questions'] = [utils.question_to_dict(q) for q in Question.get(filtered_ids)]
+		response['answered_questions'] = [utils.question_to_dict(q) for q in Question.get(anwsered_ids)]
+		response['unanswered_questions'] = [utils.question_to_dict(q) for q in Question.get(filtered_ids)]
 
 		self.returnJSON(200, response)
 
