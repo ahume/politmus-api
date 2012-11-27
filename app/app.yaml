@@ -9,6 +9,9 @@ handlers:
   static_files: favicon.ico
   upload: favicon\.ico
 
+- url: /docs
+  static_dir: docs
+
 - url: .*
   script: main_router.py
 

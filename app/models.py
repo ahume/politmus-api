@@ -10,8 +10,15 @@ class Question(db.Expando):
 
 class User(db.Expando):
 	username = db.StringProperty()
+	first_name = db.StringProperty()
+	last_name = db.StringProperty()
+	street_address = db.StringProperty()
+	locality = db.StringProperty()
 	postcode = db.StringProperty()
-	age = db.IntegerProperty()
+	birth_date = db.DateTimeProperty()
+	phone_no = db.StringProperty()
+	email = db.StringProperty()
+	twitter_username = db.StringProperty()
 	gender = db.StringProperty()
 	ethnicity = db.StringProperty()
 	constituency = db.StringProperty()

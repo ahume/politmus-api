@@ -24,6 +24,7 @@ def import_users():
             u.postcode = row['postcode']
             u.constituency = row['constituency']
             u.constituency_score = row['constituency_score']
+            u.phone_no = row['phone_no']
             u.mp_score = row['mp_score']
             u.mp = row['mp']
         

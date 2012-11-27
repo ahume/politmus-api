@@ -5,6 +5,7 @@ import logging
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 
+from views.general import HomePageRedirect
 from views.users import UserListHandler, UserProfileHandler, UserQuestionListHandler
 from views.mps import MPProfileHandler, MPListHandler
 from views.constituencies import ConstituencyHandler, ConstituencyListHandler
@@ -36,6 +37,8 @@ def main():
         # Admin importing tools
         ('/import/mpvotes', ImportMPVotesHandler),
         ('/import/users', ImportUsersHandler),
+
+        ('/', HomePageRedirect),
 
 
     ], debug=True)

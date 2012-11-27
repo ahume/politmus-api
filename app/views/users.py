@@ -1,6 +1,7 @@
 import logging
 import os
 import json
+from uuid import uuid1
 
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
@@ -12,7 +13,6 @@ from models import User, UserVote, Question, MPVote
 import utils
 
 class UserListHandler(webapp.RequestHandler, utils.QueryFilter, utils.JsonAPIResponse):
-
 	def get(self):
 		response = {
 			'users': []
@@ -21,6 +21,7 @@ class UserListHandler(webapp.RequestHandler, utils.QueryFilter, utils.JsonAPIRes
 		self.query = User.all()
 		response['total'] = self.query.count()
 		self.filterQueryOnParam('gender')
+		self.filterQueryOnParam('phone_no')
 		response = self.addPagingFilters(response)
 
 		for user in self.query:
@@ -29,6 +30,46 @@ class UserListHandler(webapp.RequestHandler, utils.QueryFilter, utils.JsonAPIRes
 			response['users'].append(u)
 
 		self.returnJSON(200, response)
+
+	def post(self):
+		logging.debug("Got POST request")
+		logging.debug(dir(self.request))
+		logging.debug(self.request.get('phone_no'))
+		logging.debug(self.request.get('constituency'))
+		response = {}
+
+		username = self.request.get('username')
+		constituency = self.request.get('constituency', None)
+
+		if not constituency:
+			response['error'] = 'Must provide a constituency'
+			self.returnJSON(402, response)
+			return
+
+		user = User()
+		user.username = self.request.get('username', uuid1().hex)
+		user.first_name = self.request.get('first_name')
+		user.last_name = self.request.get('last_name')
+		user.street_address = self.request.get('street_address')
+		user.locality = self.request.get('locality')
+		user.postcode = self.request.get('postcode')
+		user.birth_date = self.request.get('birth_date')
+		user.phone_no = self.request.get('phone_no')
+		user.email = self.request.get('email')
+		user.twitter_username = self.request.get('twitter_username')
+		user.gender = self.request.get('gender')
+		user.ethnicity = self.request.get('ethnicity')
+		user.constituency = self.request.get('constituency')
+		user.mp = self.request.get('mp')
+		user.constituency_score = 0
+		user.mp_score = 0
+
+		user.put()
+
+		response['user'] = utils.user_to_dict(user)
+		response['url'] = response['user']['details']
+
+		self.returnJSON(201, response)
 
 class UserProfileHandler(webapp.RequestHandler, utils.JsonAPIResponse):
 	def get(self, username):
@@ -49,6 +90,51 @@ class UserProfileHandler(webapp.RequestHandler, utils.JsonAPIResponse):
 				'politmus_score': user.constituency_score
 			}
 		}
+
+		self.returnJSON(200, response)
+
+	def put(self, username):
+		response = {}
+
+		try:
+			user = User.all().filter('username =', username)[0]
+		except:
+			response['error'] = 'Cannot find username'
+			self.returnJSON(404, response)
+			return
+
+		user.first_name = self.request.get('first_name', user.first_name)
+		user.last_name = self.request.get('last_name', user.last_name)
+		user.street_address = self.request.get('street_address', user.street_address)
+		user.locality = self.request.get('locality', user.locality)
+		user.postcode = self.request.get('postcode', user.postcode)
+		user.birth_date = self.request.get('birth_date', user.birth_date)
+		user.phone_no = self.request.get('phone_no', user.phone_no)
+		user.email = self.request.get('email', user.email)
+		user.twitter_username = self.request.get('twitter_username', user.twitter_username)
+		user.gender = self.request.get('gender', user.gender)
+		user.ethnicity = self.request.get('ethnicity', user.ethnicity)
+		user.constituency = self.request.get('constituency', user.constituency)
+		user.mp = self.request.get('mp', user.mp)
+
+		user.put()
+
+		response['user'] = utils.user_to_dict(user)
+
+		self.returnJSON(200, response)
+
+	def delete(self, username):
+
+		response = {}
+
+		try:
+			user = User.all().filter('username =', username)[0]
+			response['user'] = utils.user_to_dict(user)
+			user.delete()
+		except:
+			response['error'] = 'Cannot find username'
+			self.returnJSON(404, response)
+			return
 
 		self.returnJSON(200, response)
 
