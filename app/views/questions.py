@@ -25,50 +25,67 @@ class QuestionHandler(webapp.RequestHandler, utils.JsonAPIResponse):
 
 		self.returnJSON(200, response)
 
-class UserUnanwseredQuestionsListHandler(webapp.RequestHandler, utils.JsonAPIResponse):
+class UserQuestionsListHandler(webapp.RequestHandler, utils.JsonAPIResponse):
 
 	def get(self, username):
 
 		response = {}
 
-		user_votes = UserVote.all().filter('user_username =', username)
-		anwsered_ids = [v.question for v in user_votes]
+		self.username = username
+		self.answered_ids = None
+
+		response['answered_questions'] = self.getAnsweredQuestions()
+		response['unanswered_questions'] = self.getUnansweredQuestions()
+
+		self.returnJSON(200, response)
+
+	def getAnsweredQuestions(self):
+
+		if self.answered_ids is None:
+			self.user_votes = UserVote.all().filter('user_username =', self.username)
+			self.answered_ids = [v.question for v in self.user_votes]
+
+		return [utils.question_to_dict(q) for q in Question.get(self.answered_ids)]
+
+	def getUnansweredQuestions(self):
+
+		if self.answered_ids is None:
+			self.getAnsweredQuestions()
+
 		question_ids = [str(q.key()) for q in Question.all()]
 
 		filtered_ids = []
 		for q in question_ids:
-			if q not in anwsered_ids:
+			if q not in self.answered_ids:
 				filtered_ids.append(q)
 
-		response['answered_questions'] = [utils.question_to_dict(q) for q in Question.get(anwsered_ids)]
-		response['unanswered_questions'] = [utils.question_to_dict(q) for q in Question.get(filtered_ids)]
+		return [utils.question_to_dict(q) for q in Question.get(filtered_ids)]
+
+
+
+class UserAnsweredQuestionsListHandler(UserQuestionsListHandler, utils.JsonAPIResponse):
+
+	def get(self, username):
+		response = {}
+
+		self.username = username
+		self.answered_ids = None
+
+		response['questions'] = self.getAnsweredQuestions()
 
 		self.returnJSON(200, response)
 
+class UserUnansweredQuestionsListHandler(UserQuestionsListHandler, utils.JsonAPIResponse):
 
-"""
-	def get(self, question_key):
-		try:
-			question = Question.get(question_key)
-			user = User.all().filter('username =', self.request.get('username'))[0]
-		except:
-			self.response.out.write('Question or User not valid')
-			return
+	def get(self, username):
+		response = {}
 
-		# Check if user has already voted on this question.
-		already_voted = False
-		if UserVote.all().filter('username =', user.username).filter('question =', question_key).count() > 0:
-			already_voted = True
+		self.username = username
+		self.answered_ids = None
 
-		context = {
-			'question': question,
-			'user': user,
-			'already_voted': already_voted
-		}
+		response['questions'] = self.getUnansweredQuestions()
 
-		t = template.render('templates/question.html', context)
-		self.response.out.write(t)
-"""
+		self.returnJSON(200, response)
 
 
 class QuestionListHandler(webapp.RequestHandler, utils.QueryFilter, utils.JsonAPIResponse):

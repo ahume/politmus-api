@@ -2,8 +2,8 @@ import unittest
 import json
 import urllib2
 
-#hostname = 'http://localhost:8085'
-hostname = 'http://politmus-api.appspot.com'
+hostname = 'http://localhost:8080'
+#hostname = 'http://politmus-api.appspot.com'
 
 class PolitmusAPITest(unittest.TestCase):
 

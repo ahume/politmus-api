@@ -9,7 +9,7 @@ from views.general import HomePageRedirect
 from views.users import UserListHandler, UserProfileHandler, UserQuestionListHandler
 from views.mps import MPProfileHandler, MPListHandler
 from views.constituencies import ConstituencyHandler, ConstituencyListHandler
-from views.questions import QuestionHandler, QuestionListHandler, UserUnanwseredQuestionsListHandler
+from views.questions import QuestionHandler, QuestionListHandler, UserQuestionsListHandler, UserAnsweredQuestionsListHandler, UserUnansweredQuestionsListHandler
 from views.votes import UserVoteListHandler, MPVoteListHandler, UserVoteHandler
 from views.importer import ImportMPVotesHandler, ImportUsersHandler
 
@@ -18,8 +18,14 @@ def main():
     logging.getLogger().setLevel(logging.DEBUG)
     application = webapp.WSGIApplication([
 
+        # Users
+
     	('/users/(.*)/votes/(.*)', UserVoteHandler),
-        ('/users/(.*)/questions', UserUnanwseredQuestionsListHandler),
+
+        ('/users/(.*)/answered-questions', UserAnsweredQuestionsListHandler),
+        ('/users/(.*)/unanswered-questions', UserUnansweredQuestionsListHandler),
+        # This endpoint is decprecated, but Jeremy's phone app still uses it.
+        ('/users/(.*)/questions', UserQuestionsListHandler),
         ('/users/(.*)/votes', UserVoteListHandler),
     	('/users/(.*)', UserProfileHandler),
     	('/users', UserListHandler),

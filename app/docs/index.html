@@ -320,11 +320,41 @@
 			</li>
 			<li class="ep-get">
 				<div class="ep-header">
-					<h3 class="ep-h"><a href="#get-users-username-suggested-questions-details"><i class="ep-verb">GET</i> <code class="ep-url">/users/{username}/suggested-questions</code></a></h3>
-					<p class="ep-summary">Gets suggestions of questions to ask the user.</p>
+					<h3 class="ep-h"><a href="#get-users-username-answered-questions-details"><i class="ep-verb">GET</i> <code class="ep-url">/users/{username}/answered-questions</code></a></h3>
+					<p class="ep-summary">Gets list of questions the user has voted on.</p>
 					<p class="ep-level ep-authenticated">Authenticated</p>
 				</div>
-				<div id="get-users-username-suggested-questions-details" class="ep-body">
+				<div id="get-users-username-answered-questions-details" class="ep-body">
+					<p>Gets a list of questions that the user has voted on</p>
+					<h4>Possible JSON response</h4>
+					
+					<code class="ep-response">
+						<pre>
+{
+  'questions': [
+    {
+      'id': 'sdasdasd-123123-asdasd-asdasd',
+      'description': 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
+      'title': 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. At possimus quasi consequatur ipsum nisi voluptate nihil modi labore vero ducimus similique.',
+      'supporting_url': 'http://example.com/issue/lorem-ipsum'
+    },
+    {
+    	...
+    }
+  ]
+}
+						</pre>
+					</code>
+					<a class="ep-close" href="#" title="Close details">&times;</a>
+				</div>
+			</li>
+			<li class="ep-get">
+				<div class="ep-header">
+					<h3 class="ep-h"><a href="#get-users-username-unanswered-questions-details"><i class="ep-verb">GET</i> <code class="ep-url">/users/{username}/unanswered-questions</code></a></h3>
+					<p class="ep-summary">Gets list of suggested questions to ask the user.</p>
+					<p class="ep-level ep-authenticated">Authenticated</p>
+				</div>
+				<div id="get-users-username-unanswered-questions-details" class="ep-body">
 					<p>Gets a list of questions that the user has not yet voted on, as a suggestion for what to vote on next, based on possibly previous voting patterns and upcoming vote dates in parliament.</p>
 					<h4>Possible JSON response</h4>
 					
