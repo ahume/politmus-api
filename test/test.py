@@ -254,6 +254,32 @@ class TestUserQuestionList(PolitmusAPITest):
 		self.assertTrue(data['total'] > 0)
 		self.assertTrue(len(data['questions']) > 0)
 
+class TestUserVoteList(PolitmusAPITest):
+
+	def test_list(self):
+
+		data = self.get_data('/users/andyhume/votes')
+
+		self.assertEqual(data['status'], 200)
+		self.assertEqual(len(data['votes']), 0)
+
+		data = self.post_data('/users/andyhume/votes', {'selection': 'aye', 'question_id': 'ahBkZXZ-cG9saXRtdXMtYXBpcg4LEghRdWVzdGlvbhgTDA'})
+		self.assertEqual(data['status'], 201)
+
+		data = self.get_data('/users/andyhume/votes')
+		self.assertEqual(len(data['votes']), 1)
+
+
+	def test_create_vote(self):
+
+		data = self.post_data('/users/andyhume/votes', {'selection': 'aye', 'question_id': 'ahBkZXZ-cG9saXRtdXMtYXBpcg4LEghRdWVzdGlvbhgTDA'})
+
+		self.assertEqual(data['status'], 200)
+		self.assertEqual(len(data['votes']), 1)
+
+
+
+
 class TestQuestionList(PolitmusAPITest):
 
 	def test_list(self):

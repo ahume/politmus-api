@@ -138,6 +138,6 @@ class UserVoteListHandler(webapp.RequestHandler, utils.QueryFilter, utils.JsonAP
 		del response['vote']['constituency']
 
 
-		response['user'] = db.to_dict(user)
+		response['user'] = utils.user_to_dict(user)
 		return response
 

@@ -142,7 +142,7 @@ a {
 }
 .ep-body-active {
 	height: auto;
-	min-height: 240px;
+	min-height: 170px;
 }
 .ie7.no-js .ep-body,
 .ie8.no-js .ep-body {
@@ -150,7 +150,7 @@ a {
 }
 .no-js .ep-body:target {
 	height: auto;
-	min-height:  240px;
+	min-height:  170px;
 	padding: 20px 10px;
 	background-color: #fff;
 }
@@ -197,6 +197,13 @@ a {
 	background-color: #ddd;
 	color: #333;
 	padding: 5px;
+}
+.ep-parameters .note {
+	font-size: 12px;
+	font-style: normal;
+}
+.ep-parameters .required {
+	color: red;
 }
 .ep-example-requests li {
 	font-size: 14px;

@@ -18,12 +18,10 @@ def main():
     logging.getLogger().setLevel(logging.DEBUG)
     application = webapp.WSGIApplication([
 
-        # Users
-
-    	('/users/(.*)/votes/(.*)', UserVoteHandler),
         ('/users/(.*)/answered-questions', UserAnsweredQuestionsListHandler),
         ('/users/(.*)/unanswered-questions', UserUnansweredQuestionsListHandler),
         ('/users/(.*)/questions', UserQuestionsListHandler),
+        ('/users/(.*)/votes/(.*)', UserVoteHandler),
         ('/users/(.*)/votes', UserVoteListHandler),
     	('/users/(.*)', UserProfileHandler),
     	('/users', UserListHandler),
