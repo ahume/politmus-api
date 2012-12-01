@@ -19,7 +19,7 @@ def import_users():
             u = User()
             u.username = row['username']
             u.gender = row['gender']
-            u.age = row['age']
+            u.birth_date = datetime.date(*map(int, row['birth_date'].split("-")))
             u.ethnicity = row['ethnicity']
             u.postcode = row['postcode']
             u.constituency = row['constituency']

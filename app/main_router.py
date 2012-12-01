@@ -21,10 +21,8 @@ def main():
         # Users
 
     	('/users/(.*)/votes/(.*)', UserVoteHandler),
-
         ('/users/(.*)/answered-questions', UserAnsweredQuestionsListHandler),
         ('/users/(.*)/unanswered-questions', UserUnansweredQuestionsListHandler),
-        # This endpoint is decprecated, but Jeremy's phone app still uses it.
         ('/users/(.*)/questions', UserQuestionsListHandler),
         ('/users/(.*)/votes', UserVoteListHandler),
     	('/users/(.*)', UserProfileHandler),

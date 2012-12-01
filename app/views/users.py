@@ -2,11 +2,13 @@ import logging
 import os
 import json
 from uuid import uuid1
+import datetime
 
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.api import memcache
 from google.appengine.ext import db
+from google.appengine.api import oauth
 
 
 from models import User, UserVote, Question, MPVote
@@ -14,14 +16,21 @@ import utils
 
 class UserListHandler(webapp.RequestHandler, utils.QueryFilter, utils.JsonAPIResponse):
 	def get(self):
+
 		response = {
 			'users': []
 		}
 
 		self.query = User.all()
-		response['total'] = self.query.count()
 		self.filterQueryOnParam('gender')
+		self.filterQueryOnParam('ethnicity')
 		self.filterQueryOnParam('phone_no')
+		self.filterQueryOnParam('postcode')
+		self.filterQueryOnParam('constituency')
+		self.filterQueryOnParam('mp')
+		self.addAgeFilter()
+		response['total'] = self.query.count()
+		
 		response = self.addPagingFilters(response)
 
 		for user in self.query:
@@ -53,7 +62,12 @@ class UserListHandler(webapp.RequestHandler, utils.QueryFilter, utils.JsonAPIRes
 		user.street_address = self.request.get('street_address')
 		user.locality = self.request.get('locality')
 		user.postcode = self.request.get('postcode')
-		user.birth_date = self.request.get('birth_date')
+		
+		birth_date = self.request.get('birth_date', None)
+		if birth_date is not None:
+			birth_date = datetime.date(*map(int, birth_date.split("-")))
+		user.birth_date	= birth_date
+
 		user.phone_no = self.request.get('phone_no')
 		user.email = self.request.get('email')
 		user.twitter_username = self.request.get('twitter_username')
@@ -108,7 +122,12 @@ class UserProfileHandler(webapp.RequestHandler, utils.JsonAPIResponse):
 		user.street_address = self.request.get('street_address', user.street_address)
 		user.locality = self.request.get('locality', user.locality)
 		user.postcode = self.request.get('postcode', user.postcode)
-		user.birth_date = self.request.get('birth_date', user.birth_date)
+
+		birth_date = self.request.get('birth_date', user.birth_date)
+		if isinstance(birth_date, basestring):
+			birth_date = datetime.date(*map(int, birth_date.split("-")))
+		user.birth_date	= birth_date
+
 		user.phone_no = self.request.get('phone_no', user.phone_no)
 		user.email = self.request.get('email', user.email)
 		user.twitter_username = self.request.get('twitter_username', user.twitter_username)

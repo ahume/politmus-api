@@ -1,5 +1,7 @@
 import json
 import logging
+import datetime
+from dateutil.relativedelta import relativedelta
 
 from google.appengine.ext import db
 
@@ -78,6 +80,8 @@ def mp_to_dict(mp):
 
 def user_to_dict(user):
 	u = db.to_dict(user)
+	if isinstance(user.birth_date, datetime.date):
+		u['birth_date'] = user.birth_date.isoformat()
 	u['details'] = '/users/%s' % user.username
 	del u['constituency_score']
 	del u['mp_score']
@@ -86,7 +90,7 @@ def user_to_dict(user):
 class QueryFilter(object):
 
 	def filterQueryOnParam(self, param):
-		q = self.request.get(param).lower()
+		q = self.request.get(param)
 		if q is not '':
 			self.query.filter(param + ' =', q)
 
@@ -104,6 +108,20 @@ class QueryFilter(object):
 		
 		self.query = self.query[start_index:start_index+count]
 		return response
+
+	def addAgeFilter(self):
+		min_age = self.request.get('min_age', None)
+		max_age = self.request.get('max_age', None)
+
+		now = datetime.date.today()
+		if min_age is not None:
+			min_date = now - relativedelta(years=int(min_age))
+			self.query.filter('birth_date <', min_date)
+		if max_age is not None:
+			max_date = now - relativedelta(years=int(max_age) + 1)
+			self.query.filter('birth_date >', max_date)
+
+
 		
 
 

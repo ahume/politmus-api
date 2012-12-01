@@ -34,8 +34,8 @@ class UserQuestionsListHandler(webapp.RequestHandler, utils.JsonAPIResponse):
 		self.username = username
 		self.answered_ids = None
 
-		response['answered_questions'] = self.getAnsweredQuestions()
-		response['unanswered_questions'] = self.getUnansweredQuestions()
+		response['answered_questions'] = [utils.question_to_dict(q) for q in self.getAnsweredQuestions()]
+		response['unanswered_questions'] = [utils.question_to_dict(q) for q in self.getUnansweredQuestions()]
 
 		self.returnJSON(200, response)
 
@@ -45,7 +45,7 @@ class UserQuestionsListHandler(webapp.RequestHandler, utils.JsonAPIResponse):
 			self.user_votes = UserVote.all().filter('user_username =', self.username)
 			self.answered_ids = [v.question for v in self.user_votes]
 
-		return [utils.question_to_dict(q) for q in Question.get(self.answered_ids)]
+		return Question.get(self.answered_ids)
 
 	def getUnansweredQuestions(self):
 
@@ -59,7 +59,7 @@ class UserQuestionsListHandler(webapp.RequestHandler, utils.JsonAPIResponse):
 			if q not in self.answered_ids:
 				filtered_ids.append(q)
 
-		return [utils.question_to_dict(q) for q in Question.get(filtered_ids)]
+		return Question.get(filtered_ids)
 
 
 
@@ -71,7 +71,9 @@ class UserAnsweredQuestionsListHandler(UserQuestionsListHandler, utils.JsonAPIRe
 		self.username = username
 		self.answered_ids = None
 
-		response['questions'] = self.getAnsweredQuestions()
+		questions = self.getAnsweredQuestions()
+		response['total'] = len(questions)
+		response['questions'] = [utils.question_to_dict(q) for q in questions]
 
 		self.returnJSON(200, response)
 
@@ -83,7 +85,9 @@ class UserUnansweredQuestionsListHandler(UserQuestionsListHandler, utils.JsonAPI
 		self.username = username
 		self.answered_ids = None
 
-		response['questions'] = self.getUnansweredQuestions()
+		questions = self.getUnansweredQuestions()
+		response['total'] = len(questions)
+		response['questions'] = [utils.question_to_dict(q) for q in questions]
 
 		self.returnJSON(200, response)
 

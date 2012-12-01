@@ -2,7 +2,7 @@
 	{
 		"username": "andyhume",
 		"postcode": "BN2 1NB",
-		"age": 32,
+		"birth_date": "1980-01-20",
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Brighton, Kemptown",
@@ -14,7 +14,7 @@
 	{
 		"username": "rutter",
 		"postcode": "BN2 1NA",
-		"age": 40,
+		"birth_date": "1972-01-20",
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Brighton, Kemptown",
@@ -26,7 +26,7 @@
 	{
 		"username": "plloyd",
 		"postcode": "BN1 5NP",
-		"age": 32,
+		"birth_date": "1981-06-20",
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Brighton, Pavillion",
@@ -38,7 +38,7 @@
 	{
 		"username": "allmarkedup",
 		"postcode": "BN3 1AG",
-		"age": 32,
+		"birth_date": "1981-01-20",
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Hove",
@@ -50,7 +50,7 @@
 	{
 		"username": "jeremy",
 		"postcode": "BN2 3EJ",
-		"age": 40,
+		"birth_date": "1976-01-20",
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Brighton, Pavillion",
@@ -62,7 +62,7 @@
 	{
 		"username": "josh",
 		"postcode": "BN1 4JZ",
-		"age": 25,
+		"birth_date": "1988-01-20",
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Brighton, Pavillion",
@@ -74,7 +74,7 @@
 		{
 		"username": "andybudd",
 		"postcode": "BN2 1NB",
-		"age": 32,
+		"birth_date": "1971-01-20",
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Brighton, Kemptown",
@@ -86,7 +86,7 @@
 		{
 		"username": "mike",
 		"postcode": "E2 8AB",
-		"age": 32,
+		"birth_date": "1979-01-20",
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Hackney South and Shoreditch",
@@ -98,7 +98,7 @@
 		{
 		"username": "boxman",
 		"postcode": "BN1 5GA",
-		"age": 37,
+		"birth_date": "1976-01-20",
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Brighton, Pavillion",
@@ -110,7 +110,7 @@
 		{
 		"username": "batesy",
 		"postcode": "BN3 4PP",
-		"age": 37,
+		"birth_date": "1977-01-20",
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Hove",
@@ -122,7 +122,7 @@
 		{
 		"username": "ben",
 		"postcode": "BN3 1NE",
-		"age": 32,
+		"birth_date": "1976-01-20",
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Hove",
@@ -134,7 +134,7 @@
 		{
 		"username": "jon",
 		"postcode": "BN2 1AE",
-		"age": 34,
+		"birth_date": "1978-01-20",
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Brighton, Kemptown",
@@ -146,7 +146,7 @@
 		{
 		"username": "jessica",
 		"postcode": "BN2 3EJ",
-		"age": null,
+		"birth_date": "1976-01-20",
 		"gender": "female",
 		"ethnicity": "white",
 		"constituency": "Brighton, Kemptown",
@@ -158,7 +158,7 @@
 		{
 		"username": "kate",
 		"postcode": "BN2 1EH",
-		"age": null,
+		"birth_date": "1976-01-20",
 		"gender": "female",
 		"ethnicity": "white",
 		"constituency": "Brighton, Kemptown",
@@ -170,7 +170,7 @@
 		{
 		"username": "kyle",
 		"postcode": "BN1 4JZ",
-		"age": 26,
+		"birth_date": "1987-01-20",
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Brighton, Pavillion",
@@ -182,7 +182,7 @@
 		{
 		"username": "brian",
 		"postcode": "EH9 2JT",
-		"age": null,
+		"birth_date": "1977-01-20",
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Edinburgh North, and Leith",
@@ -194,7 +194,7 @@
 		{
 		"username": "harry",
 		"postcode": "BN2 3FP",
-		"age": 32,
+		"birth_date": "1978-01-20",
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Brighton, Pavillion",
@@ -206,7 +206,7 @@
 		{
 		"username": "emil",
 		"postcode": "BN2 4AJ",
-		"age": 32,
+		"birth_date": "1984-01-20",
 		"gender": "male",
 		"ethnicity": "white",
 		"constituency": "Brighton, Pavillion",

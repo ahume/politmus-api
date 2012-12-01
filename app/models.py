@@ -15,7 +15,7 @@ class User(db.Expando):
 	street_address = db.StringProperty()
 	locality = db.StringProperty()
 	postcode = db.StringProperty()
-	birth_date = db.DateTimeProperty()
+	birth_date = db.DateProperty()
 	phone_no = db.StringProperty()
 	email = db.StringProperty()
 	twitter_username = db.StringProperty()

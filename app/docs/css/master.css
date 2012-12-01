@@ -187,6 +187,9 @@ a {
 	background-color: #ddd;
 	font-size: 14px;
 }
+.ep-parameters {
+	margin-bottom: 25px;
+}
 .ep-parameters li {
 	list-style: disc;
 }
@@ -194,6 +197,10 @@ a {
 	background-color: #ddd;
 	color: #333;
 	padding: 5px;
+}
+.ep-example-requests li {
+	font-size: 14px;
+	margin: 2px 0;
 }
 .has-js .ep-close {
 	display: none;
