@@ -87,6 +87,13 @@ def user_to_dict(user):
 	del u['mp_score']
 	return u
 
+def vote_to_dict(vote):
+	v = db.to_dict(vote)
+	v['question'] = question_to_dict(vote.parent())
+	del v['user_username']
+	del v['constituency']
+	return v
+
 class QueryFilter(object):
 
 	def filterQueryOnParam(self, param):

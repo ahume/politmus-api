@@ -1,7 +1,6 @@
 import logging
 
 from google.appengine.ext import webapp
-from google.appengine.ext import db
 
 from models import User, UserVote, Question
 import utils
@@ -22,11 +21,7 @@ class UserVoteListHandler(webapp.RequestHandler, utils.QueryFilter, utils.JsonAP
 
 		response['votes'] = []
 		for vote in self.query:
-			d = db.to_dict(vote)
-			d['question'] = utils.question_to_dict(vote.parent())
-			del d['user_username']
-			del d['constituency']
-			response['votes'].append(d)
+			response['votes'].append(utils.vote_to_dict(vote))
 		response['total'] = len(response['votes'])
 
 		self.returnJSON(200, response)
@@ -73,11 +68,7 @@ class UserVoteListHandler(webapp.RequestHandler, utils.QueryFilter, utils.JsonAP
 		vote.selection = self.request.get('selection')
 		vote.put()
 
-		response['vote'] = db.to_dict(vote)
-		del response['vote']['user_username']
-		del response['vote']['constituency']
-
-
+		response['vote'] = utils.vote_to_dict(vote)
 		response['user'] = utils.user_to_dict(user)
 		return response
 
@@ -88,8 +79,7 @@ class UserVoteHandler(UserVoteListHandler, utils.JsonAPIResponse):
 
 		try:
 			vote = UserVote.all().filter('user_username =', username).filter('question =', question_key)[0]
-			response['vote'] = db.to_dict(vote)
-			response['vote']['question'] = utils.question_to_dict(vote.parent())
+			response['vote'] = utils.vote_to_dict(vote)
 		except:
 			response['error'] = 'Cannot find username'
 			self.returnJSON(404, response)
