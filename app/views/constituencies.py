@@ -1,14 +1,7 @@
-import logging
-import os
-import json
-
 from google.appengine.ext import webapp
-from google.appengine.ext.webapp import template
-from google.appengine.api import memcache
 from google.appengine.ext import db
 
-
-from models import User, MP, Constituency, UserVote, Question, MPVote
+from models import Constituency
 import utils
 
 

@@ -1,17 +1,9 @@
-import logging
-import os
-import json
 from uuid import uuid1
 import datetime
 
 from google.appengine.ext import webapp
-from google.appengine.ext.webapp import template
-from google.appengine.api import memcache
-from google.appengine.ext import db
-from google.appengine.api import oauth
 
-
-from models import User, UserVote, Question, MPVote
+from models import User
 import utils
 
 class UserListHandler(webapp.RequestHandler, utils.QueryFilter, utils.JsonAPIResponse):
@@ -41,10 +33,6 @@ class UserListHandler(webapp.RequestHandler, utils.QueryFilter, utils.JsonAPIRes
 		self.returnJSON(200, response)
 
 	def post(self):
-		logging.debug("Got POST request")
-		logging.debug(dir(self.request))
-		logging.debug(self.request.get('phone_no'))
-		logging.debug(self.request.get('constituency'))
 		response = {}
 
 		username = self.request.get('username')

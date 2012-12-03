@@ -10,7 +10,8 @@ from views.users import UserListHandler, UserProfileHandler, UserQuestionListHan
 from views.mps import MPProfileHandler, MPListHandler
 from views.constituencies import ConstituencyHandler, ConstituencyListHandler
 from views.questions import QuestionHandler, QuestionListHandler, UserQuestionsListHandler, UserAnsweredQuestionsListHandler, UserUnansweredQuestionsListHandler
-from views.votes import UserVoteListHandler, MPVoteListHandler, UserVoteHandler
+from views.uservotes import UserVoteListHandler, UserVoteHandler
+from views.mpvotes import MPVoteListHandler
 from views.importer import ImportMPVotesHandler, ImportUsersHandler
 
 def main():
