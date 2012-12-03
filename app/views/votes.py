@@ -11,52 +11,6 @@ from google.appengine.ext import db
 from models import User, MP, UserVote, Question, MPVote
 import utils
 
-class UserVoteHandler(webapp.RequestHandler, utils.JsonAPIResponse):
-	def get(self, username, question_key):
-
-		response = {}
-
-		#try:
-		vote = UserVote.all().filter('user_username =', username).filter('question =', question_key)[0]
-		response['vote'] = db.to_dict(vote)
-		response['vote']['question'] = utils.question_to_dict(vote.parent())
-		#except:
-		#	response['error'] = 'Cannot find username'
-		#	self.returnJSON(404, response)
-		#	return
-
-		self.returnJSON(200, response)
-
-class MPVoteListHandler(webapp.RequestHandler, utils.QueryFilter, utils.JsonAPIResponse):
-	def get(self, slug):
-
-		response = {}
-		try:
-			mp = MP.all().filter('slug =', slug)[0]
-			response['mp'] = utils.mp_to_dict(mp)
-		except:
-			self.returnJSON(404, response)
-			return
-
-		self.query = MPVote.all().filter('mp_slug =', slug)
-		self.filterQueryOnParam('question')
-		self.filterQueryOnParam('selection')
-
-		response['votes'] = []
-		for vote in self.query:
-			d = db.to_dict(vote)
-			d['question'] = utils.question_to_dict(vote.parent())
-			del d['mp_party']
-			del d['mp_constituency']
-			del d['mp_slug']
-			del d['mp_name']
-			response['votes'].append(d)
-		response['total'] = len(response['votes'])
-
-		self.returnJSON(200, response)
-
-
-
 class UserVoteListHandler(webapp.RequestHandler, utils.QueryFilter, utils.JsonAPIResponse):
 	def get(self, username):
 		response = {}
@@ -83,21 +37,12 @@ class UserVoteListHandler(webapp.RequestHandler, utils.QueryFilter, utils.JsonAP
 		self.returnJSON(200, response)
 
 	def post(self, username):
-		response = self.update(username)
+		question_key = self.request.get('question')
+		response = self.update(username, question_key)
 		if response is not None:
 			self.returnJSON(201, response)
 
-
-	def put(self, username):
-		response = self.update(username)
-		if response is not None:
-			self.returnJSON(200, response)
-
-
-
-	def update(self, username):
-
-		question_key = self.request.get('question')
+	def update(self, username, question_key):
 
 		response = {}
 
@@ -141,3 +86,68 @@ class UserVoteListHandler(webapp.RequestHandler, utils.QueryFilter, utils.JsonAP
 		response['user'] = utils.user_to_dict(user)
 		return response
 
+class UserVoteHandler(UserVoteListHandler, utils.JsonAPIResponse):
+	def get(self, username, question_key):
+
+		response = {}
+
+		try:
+			vote = UserVote.all().filter('user_username =', username).filter('question =', question_key)[0]
+			response['vote'] = db.to_dict(vote)
+			response['vote']['question'] = utils.question_to_dict(vote.parent())
+		except:
+			response['error'] = 'Cannot find username'
+			self.returnJSON(404, response)
+			return
+
+		self.returnJSON(200, response)
+
+	def put(self, username, question_key):
+		response = self.update(username, question_key)
+		if response is not None:
+			self.returnJSON(200, response)
+
+
+	def delete(self, username, question_key):
+
+		response = {}
+
+		try:
+			vote = UserVote.all().filter('user_username =', username).filter('question =', question_key)[0]
+			vote.delete()
+			response['status'] = 200
+		except:
+			response['error'] = 'Cannot find username'
+			self.returnJSON(404, response)
+			return
+
+		self.returnJSON(200, response)
+
+
+class MPVoteListHandler(webapp.RequestHandler, utils.QueryFilter, utils.JsonAPIResponse):
+	def get(self, slug):
+
+		response = {}
+		try:
+			mp = MP.all().filter('slug =', slug)[0]
+			response['mp'] = utils.mp_to_dict(mp)
+		except:
+			self.returnJSON(404, response)
+			return
+
+		self.query = MPVote.all().filter('mp_slug =', slug)
+		self.filterQueryOnParam('question')
+		self.filterQueryOnParam('selection')
+
+		response['votes'] = []
+		for vote in self.query:
+			d = db.to_dict(vote)
+			d['question'] = utils.question_to_dict(vote.parent())
+			del d['mp_party']
+			del d['mp_constituency']
+			del d['mp_slug']
+			del d['mp_name']
+			response['votes'].append(d)
+		response['total'] = len(response['votes'])
+
+		self.returnJSON(200, response)

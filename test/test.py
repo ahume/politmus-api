@@ -256,28 +256,30 @@ class TestUserQuestionList(PolitmusAPITest):
 
 class TestUserVoteList(PolitmusAPITest):
 
-	def test_list(self):
+	def test_uservote_crud(self):
 
 		data = self.get_data('/users/andyhume/votes')
-
 		self.assertEqual(data['status'], 200)
 		self.assertEqual(len(data['votes']), 0)
 
-		data = self.post_data('/users/andyhume/votes', {'selection': 'aye', 'question_id': 'ahBkZXZ-cG9saXRtdXMtYXBpcg4LEghRdWVzdGlvbhgTDA'})
+		data = self.get_data('/users/andyhume/unanswered-questions')
+		question_key = data['questions'][0]['key']
+		data = self.post_data('/users/andyhume/votes', {'selection': 'aye', 'question': question_key})
 		self.assertEqual(data['status'], 201)
+		self.assertEqual(data['vote']['selection'], 'aye')
 
 		data = self.get_data('/users/andyhume/votes')
 		self.assertEqual(len(data['votes']), 1)
 
-
-	def test_create_vote(self):
-
-		data = self.post_data('/users/andyhume/votes', {'selection': 'aye', 'question_id': 'ahBkZXZ-cG9saXRtdXMtYXBpcg4LEghRdWVzdGlvbhgTDA'})
-
+		data = self.put_data('/users/andyhume/votes/%s' % question_key, {'selection': 'no'})
 		self.assertEqual(data['status'], 200)
-		self.assertEqual(len(data['votes']), 1)
+		self.assertEqual(data['vote']['selection'], 'no')
 
+		data = self.delete_data('/users/andyhume/votes/%s' % question_key)
+		self.assertEqual(data['status'], 200)
 
+		data = self.get_data('/users/andyhume/votes')
+		self.assertEqual(len(data['votes']), 0)
 
 
 class TestQuestionList(PolitmusAPITest):
