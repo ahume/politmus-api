@@ -10,11 +10,8 @@ The prototype does not implement any of the authentication features stated in th
 To run the prototype API locally follow these steps.
 
 * Download the [Google App Engine SDK for Python](https://developers.google.com/appengine/downloads#Google_App_Engine_SDK_for_Python) and ensure you install the command-line tools
-
 * Clone the [politmus-api](https://github.com/ahume/politmus-api) Git repository
-
 * `> cd politmus-api/`
-
 * `> dev_appserver.py --use_sqlite app`
 
 This will start the server on [http://localhost:8080](http://localhost:8080). Hit that URL to check it is working - it should redirect you to the documentation pages.
