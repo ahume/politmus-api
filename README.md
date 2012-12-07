@@ -13,7 +13,7 @@ To run the prototype API locally follow these steps.
 
 * Clone the [politmus-api](https://github.com/ahume/politmus-api) Git repository
 
-* `>cd politmus-api/`
+* `> cd politmus-api/`
 
 * `> dev_appserver.py --use_sqlite app`
 
